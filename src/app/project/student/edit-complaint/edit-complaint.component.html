@@ -1,0 +1,129 @@
+<div class="container mt-4">
+  <div class="card shadow p-4">
+
+    <h4 class="text-center mb-4">✏️ Edit Complaint</h4>
+
+    <div *ngIf="loading" class="text-center">Loading...</div>
+
+    <form *ngIf="!loading" [formGroup]="editForm" (ngSubmit)="updateComplaint()">
+
+      <!-- Title -->
+      <div class="mb-3">
+        <label>Title</label>
+        <input class="form-control"
+               formControlName="title"
+               [ngClass]="{'is-invalid': isInvalid('title')}">
+
+        <small class="text-danger" *ngIf="isInvalid('title')">
+          {{ getErrorMessage('title') }}
+        </small>
+
+        <small class="text-danger" *ngIf="getServerError('title')">
+          {{ getServerError('title') }}
+        </small>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-3">
+        <label>Category</label>
+        <select class="form-control"
+                formControlName="category_id"
+                [ngClass]="{'is-invalid': isInvalid('category_id')}"
+                (change)="onCategoryChange()">
+
+          <option value="">Select Category</option>
+          <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+        </select>
+
+        <small class="text-danger" *ngIf="isInvalid('category_id')">
+          {{ getErrorMessage('category_id') }}
+        </small>
+
+        <small class="text-danger" *ngIf="getServerError('category_id')">
+          {{ getServerError('category_id') }}
+        </small>
+      </div>
+
+      <!-- Subcategory -->
+      <div class="mb-3">
+        <label>Subcategory</label>
+        <select class="form-control"
+                formControlName="subcategory_id"
+                [ngClass]="{'is-invalid': isInvalid('subcategory_id')}">
+
+          <option value="">Select Subcategory</option>
+          <option *ngFor="let s of filteredSubcategories" [value]="s.id">{{ s.name }}</option>
+        </select>
+
+        <small class="text-danger" *ngIf="isInvalid('subcategory_id')">
+          {{ getErrorMessage('subcategory_id') }}
+        </small>
+
+        <small class="text-danger" *ngIf="getServerError('subcategory_id')">
+          {{ getServerError('subcategory_id') }}
+        </small>
+      </div>
+
+      <!-- Priority -->
+      <div class="mb-3">
+        <label>Priority</label>
+        <select class="form-control"
+                formControlName="priority"
+                [ngClass]="{'is-invalid': isInvalid('priority')}">
+
+          <option value="">Select Priority</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+
+        <small class="text-danger" *ngIf="isInvalid('priority')">
+          {{ getErrorMessage('priority') }}
+        </small>
+
+        <small class="text-danger" *ngIf="getServerError('priority')">
+          {{ getServerError('priority') }}
+        </small>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control"
+                  rows="4"
+                  formControlName="complaint_text"
+                  [ngClass]="{'is-invalid': isInvalid('complaint_text')}"></textarea>
+
+        <small class="text-danger" *ngIf="isInvalid('complaint_text')">
+          {{ getErrorMessage('complaint_text') }}
+        </small>
+
+        <small class="text-danger" *ngIf="getServerError('complaint_text')">
+          {{ getServerError('complaint_text') }}
+        </small>
+      </div>
+
+      <!-- File -->
+      <div class="mb-3">
+        <label>Upload File</label>
+        <input type="file" class="form-control" (change)="onFileChange($event)">
+      </div>
+
+      <!-- Preview -->
+      <img *ngIf="previewUrl" [src]="previewUrl" class="img-fluid mb-3" style="max-height:150px;">
+
+      <img *ngIf="complaint?.file && !previewUrl"
+           [src]="'http://127.0.0.1:8000/storage/' + complaint.file"
+           class="img-fluid mb-3"
+           style="max-height:150px;">
+
+      <!-- Buttons -->
+      <div class="text-end">
+        <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-success">Update</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

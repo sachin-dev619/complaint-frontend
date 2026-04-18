@@ -1,0 +1,55 @@
+<div class="container mt-4">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading profile...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMsg" class="alert alert-danger text-center">
+    {{ errorMsg }}
+  </div>
+
+  <!-- Profile Card -->
+  <div class="card shadow p-4 text-center profile-card" *ngIf="user">
+
+    <!-- Profile Image -->
+    <img 
+      src="https://via.placeholder.com/100"
+      class="profile-img mb-3"
+      alt="Profile Image"
+    >
+
+    <!-- Name -->
+    <h4>{{ user?.name || 'N/A' }}</h4>
+
+    <!-- Email -->
+    <p class="text-muted">{{ user?.email || 'N/A' }}</p>
+
+    <hr>
+
+    <!-- Phone -->
+    <p>
+      <strong>📱 Phone:</strong>
+      {{ user?.phone || 'Not Available' }}
+    </p>
+
+    <!-- Optional Fields -->
+    <p *ngIf="user?.class">
+      <strong>🎓 Class:</strong> {{ user?.class }}
+    </p>
+
+    <p *ngIf="user?.division">
+      <strong>🏫 Division:</strong> {{ user?.division }}
+    </p>
+
+    <!-- Edit Button -->
+    <button class="btn btn-primary mt-3 w-100"
+            (click)="editProfile()">
+      ✏ Edit Profile
+    </button>
+
+  </div>
+
+</div>

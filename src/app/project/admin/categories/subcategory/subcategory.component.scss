@@ -1,0 +1,24 @@
+.card {
+  border-radius: 12px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input, select {
+  border-radius: 6px;
+}
+
+table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+button {
+  border-radius: 6px;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}

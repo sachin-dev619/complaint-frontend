@@ -1,0 +1,109 @@
+<div class="container mt-4" *ngIf="complaint">
+
+  <div class="card shadow-lg p-4 complaint-card">
+
+    <h4 class="text-center mb-4">
+      📄 Complaint Details
+    </h4>
+
+    <div class="row">
+
+      <!-- Complaint Info -->
+      <div class="col-md-6 mb-3">
+        <label>Complaint No</label>
+        <input class="form-control" [value]="complaint.complaint_no" readonly>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Title</label>
+        <input class="form-control" [value]="complaint.title" readonly>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Category</label>
+        <input class="form-control" [value]="complaint.category?.name" readonly>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Subcategory</label>
+        <input class="form-control" [value]="complaint.subcategory_id" readonly>
+      </div>
+
+      <!-- Priority -->
+      <div class="col-md-6 mb-3">
+        <label>Priority</label><br>
+
+        <span class="badge bg-danger" *ngIf="complaint.priority=='High'">
+          High
+        </span>
+
+        <span class="badge bg-warning text-dark" *ngIf="complaint.priority=='Medium'">
+          Medium
+        </span>
+
+        <span class="badge bg-secondary" *ngIf="complaint.priority=='Low'">
+          Low
+        </span>
+
+      </div>
+
+      <!-- Status -->
+      <div class="col-md-6 mb-3">
+        <label>Status</label><br>
+
+        <span class="badge"
+          [ngClass]="{
+            'bg-warning text-dark': complaint.status=='Pending',
+            'bg-info text-white': complaint.status=='In Progress',
+            'bg-success': complaint.status=='Resolved'
+          }">
+          {{ complaint.status }}
+        </span>
+
+      </div>
+
+      <!-- Description -->
+      <div class="col-md-12 mb-3">
+        <label>Description</label>
+        <textarea class="form-control" rows="4" readonly>
+{{ complaint.complaint_text }}
+        </textarea>
+      </div>
+
+      <!-- Admin Remark -->
+      <div class="col-md-12 mb-3">
+        <label>Admin Remark</label>
+        <textarea class="form-control" rows="3" readonly>
+{{ complaint.admin_remark || 'No remark yet' }}
+        </textarea>
+      </div>
+
+      <!-- File -->
+      <div class="col-md-12 mb-3">
+        <label>Attachment</label><br>
+
+        <img
+          *ngIf="complaint.file"
+          [src]="'http://127.0.0.1:8000/storage/' + complaint.file"
+          class="img-preview"
+        >
+
+        <div *ngIf="!complaint.file" class="text-muted">
+          No file uploaded
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-3">
+      <button class="btn btn-secondary"
+        routerLink="/student/my-complaints">
+        ⬅ Back
+      </button>
+    </div>
+
+  </div>
+
+</div>

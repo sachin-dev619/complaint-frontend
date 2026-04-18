@@ -1,0 +1,88 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #111827;
+  color: #fff;
+  padding: 15px;
+  transition: 0.3s;
+}
+
+/* Logo */
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Main Menu */
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Hover */
+.menu li:hover {
+  background: #1f2937;
+}
+
+/* Active link */
+.menu li.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* Icons */
+.menu li i {
+  font-size: 18px;
+}
+
+/* Menu item (with arrow) */
+.menu-item {
+  justify-content: space-between;
+}
+
+/* Left content */
+.menu-item div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Submenu */
+.submenu ul {
+  list-style: none;
+  padding-left: 25px;
+  margin-top: 5px;
+}
+
+.submenu li {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+/* Submenu hover */
+.submenu li:hover {
+  background: #374151;
+}
+
+/* Arrow animation */
+.arrow {
+  transition: 0.3s;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
+}

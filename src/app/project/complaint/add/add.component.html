@@ -1,0 +1,28 @@
+<div class="container mt-4">
+
+  <div class="card shadow p-4">
+
+    <h4>Add Complaint</h4>
+
+    <form (ngSubmit)="submit()">
+
+      <div class="mb-3">
+        <label>Category</label>
+        <select class="form-control" [(ngModel)]="data.category_id" name="category">
+          <option value="1">Faculty</option>
+          <option value="2">Student</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Complaint</label>
+        <textarea class="form-control" [(ngModel)]="data.complaint_text" name="complaint"></textarea>
+      </div>
+
+      <button class="btn btn-primary">Submit</button>
+
+    </form>
+
+  </div>
+
+</div>

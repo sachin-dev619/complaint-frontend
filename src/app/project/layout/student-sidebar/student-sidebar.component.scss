@@ -1,0 +1,29 @@
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: #343a40;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  transition: 0.3s;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 12px 20px;
+  color: white;
+  cursor: pointer;
+  border-bottom: 1px solid #495057;
+}
+
+.menu li:hover {
+  background: #495057;
+}
+
+.active {
+  background: #007bff !important;
+}

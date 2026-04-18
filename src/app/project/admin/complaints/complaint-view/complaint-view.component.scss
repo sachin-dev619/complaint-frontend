@@ -1,0 +1,43 @@
+.complaint-card {
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+}
+
+textarea {
+  resize: none;
+}
+
+/* Image */
+.img-preview {
+  max-width: 300px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+/* No Image Box */
+.no-image {
+  margin-top: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  color: #999;
+  font-weight: 500;
+  background: #f9f9f9;
+}
+
+/* Buttons */
+button {
+  border-radius: 8px;
+  padding: 8px 20px;
+}

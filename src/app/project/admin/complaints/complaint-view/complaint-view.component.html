@@ -1,0 +1,103 @@
+<div class="container mt-4" *ngIf="complaint">
+
+  <div class="card shadow-lg p-4 complaint-card">
+
+    <h4 class="text-center mb-4">📄 Complaint Details</h4>
+
+    <div class="row">
+
+      <!-- User -->
+      <div class="col-md-6 mb-3">
+        <label>User Name</label>
+        <input class="form-control" [value]="complaint.user?.name" readonly>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Email</label>
+        <input class="form-control" [value]="complaint.user?.email" readonly>
+      </div>
+
+      <!-- Complaint No -->
+      <div class="col-md-6 mb-3">
+        <label>Complaint No</label>
+        <input class="form-control" [value]="complaint.complaint_no" readonly>
+      </div>
+
+      <!-- Priority -->
+      <div class="col-md-6 mb-3">
+        <label>Priority</label><br>
+        <span class="badge bg-danger" *ngIf="complaint.priority=='High'">High</span>
+        <span class="badge bg-warning text-dark" *ngIf="complaint.priority=='Medium'">Medium</span>
+        <span class="badge bg-secondary" *ngIf="complaint.priority=='Low'">Low</span>
+      </div>
+
+      <!-- Status (EDITABLE) -->
+      <div class="col-md-6 mb-3">
+        <label>Status</label>
+        <select class="form-select" [(ngModel)]="complaint.status">
+          <option>Pending</option>
+          <option>In Progress</option>
+          <option>Resolved</option>
+        </select>
+      </div>
+
+      <!-- Title -->
+      <div class="col-md-12 mb-3">
+        <label>Title</label>
+        <input class="form-control" [value]="complaint.title" readonly>
+      </div>
+
+      <!-- Complaint Text -->
+      <div class="col-md-12 mb-3">
+        <label>Complaint</label>
+        <textarea class="form-control" rows="4" readonly>
+{{ complaint.complaint_text }}
+        </textarea>
+      </div>
+
+      <!-- Admin Remark (EDITABLE) -->
+      <div class="col-md-12 mb-3">
+        <label>Admin Remark</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          [(ngModel)]="complaint.admin_remark"
+          placeholder="Enter remark"
+        ></textarea>
+      </div>
+
+      <!-- Image Section -->
+      <div class="col-md-12 mb-3">
+        <label>Uploaded Image</label><br>
+
+        <!-- ✅ If image exists -->
+        <img
+          *ngIf="complaint.file"
+          [src]="'http://127.0.0.1:8000/storage/' + complaint.file"
+          class="img-preview"
+        >
+
+        <!-- ❌ If no image -->
+        <div *ngIf="!complaint.file" class="no-image">
+          🚫 No Image Available
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+
+      <button class="btn btn-success me-2" (click)="updateStatus()">
+        ✅ Update
+      </button>
+
+      <button class="btn btn-secondary" routerLink="/admin/complaints">
+        ⬅ Back
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

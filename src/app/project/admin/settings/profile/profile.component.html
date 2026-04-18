@@ -1,0 +1,46 @@
+<div class="page-card">
+
+  <h4 class="mb-3">👤 Profile</h4>
+
+  <form (ngSubmit)="updateProfile()">
+
+    <!-- Name -->
+    <label>Name</label>
+    <input
+      class="form-control mb-3"
+      [(ngModel)]="profile.name"
+      name="name"
+    >
+
+    <!-- Email -->
+    <label>Email</label>
+    <input
+      class="form-control mb-3"
+      [(ngModel)]="profile.email"
+      name="email"
+    >
+
+    <!-- Role (readonly) -->
+    <label>Role</label>
+    <input
+      class="form-control mb-3"
+      [value]="profile.role"
+      readonly
+    >
+
+    <!-- Created Date -->
+    <label>Account Created</label>
+    <input
+      class="form-control mb-3"
+      [value]="profile.created_at | date:'medium'"
+      readonly
+    >
+
+    <!-- Button -->
+    <button class="btn btn-primary w-100">
+      Update Profile
+    </button>
+
+  </form>
+
+</div>

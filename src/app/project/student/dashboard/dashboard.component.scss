@@ -1,0 +1,30 @@
+.card {
+  border-radius: 12px;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+/* 🔹 Card Colors */
+.total {
+  background: #e3f2fd;
+}
+
+.pending {
+  background: #fff3cd;
+}
+
+.progress {
+  background: #d1ecf1;
+}
+
+.resolved {
+  background: #d4edda;
+}
+
+/* 🔹 Badge */
+.badge {
+  padding: 6px 10px;
+  font-size: 12px;
+}

@@ -1,0 +1,59 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* 🔔 Bell */
+.notification-icon {
+  cursor: pointer;
+  position: relative;
+}
+
+/* 🔴 Badge */
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  font-size: 10px;
+  padding: 4px 6px;
+}
+
+/* 📦 Dropdown */
+.notification-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 10px;
+  z-index: 999;
+}
+
+/* 📜 List */
+.notification-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* 📩 Item */
+.notification-item {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.notification-item:hover {
+  background: #f5f5f5;
+}
+
+/* 🔴 Unread Highlight */
+.notification-item.unread {
+  background: #eef4ff;
+}
+
+/* Cursor */
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -1,0 +1,113 @@
+<div class="container mt-4">
+
+  <!-- 🔹 Header -->
+  <div class="card shadow p-3 mb-3">
+    <h4 class="text-center mb-3">📅 Daily Complaints</h4>
+
+    <div class="row align-items-end">
+      <div class="col-md-4">
+        <label>Select Date</label>
+        <input type="date"
+               class="form-control"
+               [(ngModel)]="selectedDate"
+               (change)="onDateChange()">
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Table -->
+  <div class="card shadow p-3">
+    <h5 class="mb-3">📋 Complaint List</h5>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center">
+
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Complaint No</th>
+            <th>Student Name</th>
+            <th>Title</th>
+            <th>Complaint</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let c of complaints; let i = index">
+            <td>{{ (currentPage - 1) * 10 + i + 1 }}</td>
+
+            <td>{{ c.complaint_no }}</td>
+            <td>{{ c.user?.name || 'N/A' }}</td>
+            <td>{{ c.title }}</td>
+            <td>{{ c.complaint_text }}</td>
+            <td>{{ c.category?.name || 'N/A' }}</td>
+            <td>{{ c.subcategory?.name || 'N/A' }}</td>
+
+            <td>
+              <span class="badge bg-danger" *ngIf="c.priority=='High'">High</span>
+              <span class="badge bg-warning" *ngIf="c.priority=='Medium'">Medium</span>
+              <span class="badge bg-info" *ngIf="c.priority=='Low'">Low</span>
+            </td>
+
+            <td>
+              <span class="badge bg-warning" *ngIf="c.status=='Pending'">Pending</span>
+              <span class="badge bg-info" *ngIf="c.status=='In Progress'">In Progress</span>
+              <span class="badge bg-success" *ngIf="c.status=='Resolved'">Resolved</span>
+            </td>
+
+            <td>{{ c.created_at | date:'shortDate' }}</td>
+          </tr>
+
+          <tr *ngIf="complaints.length === 0">
+            <td colspan="10">No complaints found</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+    </div>
+
+    <!-- 🔢 PAGINATION -->
+    <nav class="mt-3 d-flex justify-content-between align-items-center">
+
+      <div>
+        Showing {{ complaints.length }} of {{ total }} entries
+      </div>
+
+      <ul class="pagination mb-0">
+
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="changePage(currentPage - 1)">
+            Previous
+          </button>
+        </li>
+
+        <li
+          class="page-item"
+          *ngFor="let page of [].constructor(lastPage); let i = index"
+          [class.active]="currentPage === (i + 1)"
+        >
+          <button class="page-link" (click)="changePage(i + 1)">
+            {{ i + 1 }}
+          </button>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage === lastPage">
+          <button class="page-link" (click)="changePage(currentPage + 1)">
+            Next
+          </button>
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </div>
+
+</div>

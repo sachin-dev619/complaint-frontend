@@ -1,0 +1,76 @@
+<div class="header d-flex justify-content-between align-items-center p-3 shadow-sm bg-white">
+
+  <!-- Title -->
+  <h5 class="mb-0 fw-bold text-dark">Admin Panel</h5>
+
+  <!-- Right Section -->
+  <div class="d-flex align-items-center gap-4 position-relative">
+
+    <!-- 🔔 Notification Bell -->
+    <div class="notification-icon" (click)="toggleNotifications()">
+
+      <!-- ✅ Bell Icon -->
+      <i class="fas fa-bell text-dark"></i>
+
+      <!-- 🔴 Badge -->
+      <span *ngIf="unreadCount > 0"
+            class="badge bg-danger notification-badge">
+        {{ unreadCount }}
+      </span>
+    </div>
+
+    <!-- 🔽 Dropdown -->
+    <div class="notification-dropdown shadow-lg"
+         *ngIf="showNotifications">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between p-2 border-bottom">
+        <b>Notifications</b>
+        <small class="text-primary cursor-pointer"
+               (click)="markAllRead()">
+          Mark all read
+        </small>
+      </div>
+
+      <!-- List -->
+      <div class="notification-list">
+
+        <div *ngFor="let n of notifications"
+             class="notification-item p-2 border-bottom"
+             [class.unread]="n.is_read == 0"
+             (click)="markAsRead(n)">
+
+          <div class="d-flex justify-content-between">
+            <b>{{ n.title }}</b>
+            <small class="text-muted">
+              {{ n.created_at | date:'shortTime' }}
+            </small>
+          </div>
+
+          <p class="mb-1 text-muted small">
+            {{ n.description }}
+          </p>
+
+          <small class="text-secondary">
+            {{ n.created_at | date:'mediumDate' }}
+          </small>
+        </div>
+
+        <!-- Empty -->
+        <div *ngIf="notifications.length === 0"
+             class="p-3 text-center text-muted">
+          No notifications
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Logout -->
+    <button class="btn btn-sm btn-danger"
+            (click)="logout()">
+      Logout
+    </button>
+
+  </div>
+</div>

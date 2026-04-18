@@ -1,0 +1,102 @@
+<div class="container mt-4">
+
+  <div class="card shadow p-3">
+
+    <h4 class="text-center mb-3">📋 My Complaints</h4>
+
+    <div class="table-responsive">
+
+      <!-- Loading -->
+      <div *ngIf="loading" class="text-center my-3">
+        Loading...
+      </div>
+
+      <table class="table table-bordered table-hover text-center" *ngIf="!loading">
+
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Complaint No</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Remark</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let c of complaints; let i = index">
+
+            <td>{{ i + 1 }}</td>
+            <td>{{ c.complaint_no }}</td>
+            <td>{{ c.title }}</td>
+            <td>{{ c.category?.name }}</td>
+
+            <!-- STATUS -->
+            <td>
+              <span class="badge"
+                [ngClass]="{
+                  'bg-warning text-dark': c.status=='Pending',
+                  'bg-info text-white': c.status=='In Progress',
+                  'bg-success': c.status=='Resolved'
+                }">
+                {{ c.status }}
+              </span>
+            </td>
+
+            <!-- REMARK -->
+            <td>
+              <span [ngClass]="{
+                'text-danger': !c.admin_remark
+              }">
+                {{ c.admin_remark || 'No remark' }}
+              </span>
+            </td>
+
+            <td>{{ c.created_at | date:'short' }}</td>
+
+            <!-- ACTIONS -->
+            <td>
+
+              <!-- VIEW -->
+              <button class="btn btn-sm btn-primary me-1"
+                      (click)="viewComplaint(c.id)">
+                👁 View
+              </button>
+
+              <!-- EDIT (ONLY PENDING) -->
+              <button class="btn btn-sm btn-warning"
+                      *ngIf="c.status === 'Pending'"
+                      (click)="editComplaint(c.id)">
+                ✏️ Edit
+              </button>
+
+              <!-- LOCKED -->
+              <button class="btn btn-sm btn-secondary"
+                      *ngIf="c.status !== 'Pending'"
+                      disabled>
+                🔒 Locked
+              </button>
+
+            </td>
+
+          </tr>
+
+          <!-- No Data -->
+          <tr *ngIf="complaints.length === 0">
+            <td colspan="8" class="text-center text-muted">
+              No complaints found
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

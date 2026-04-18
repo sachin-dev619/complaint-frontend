@@ -1,0 +1,15 @@
+.main-content {
+  margin-left: 220px;
+  margin-top: 60px;
+  padding: 20px;
+  transition: 0.3s;
+}
+
+/* 🔹 Sidebar Toggle */
+body.sidebar-open .sidebar {
+  left: -220px;
+}
+
+body.sidebar-open .main-content {
+  margin-left: 0;
+}

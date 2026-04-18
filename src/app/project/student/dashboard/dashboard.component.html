@@ -1,0 +1,123 @@
+<div class="container mt-4">
+
+  <h3 class="text-center mb-4 fw-bold">🎓 Student Dashboard</h3>
+
+  <!-- 🔷 CARDS -->
+  <div class="row mb-4">
+
+    <div class="col-md-3">
+      <div class="card text-center shadow border-0 p-3 bg-light">
+        <div class="card-body">
+          <h6>Total</h6>
+          <h3>{{ total }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-center shadow border-0 p-3 bg-warning text-dark">
+        <div class="card-body">
+          <h6>Pending</h6>
+          <h3>{{ pending }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-center shadow border-0 p-3 bg-info text-white">
+        <div class="card-body">
+          <h6>In Progress</h6>
+          <h3>{{ inprogress }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-center shadow border-0 p-3 bg-success text-white">
+        <div class="card-body">
+          <h6>Resolved</h6>
+          <h3>{{ resolved }}</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 🔷 CHART + TABLE -->
+  <div class="row">
+
+    <!-- 📊 Chart -->
+    <div class="col-md-5">
+      <div class="card shadow border-0 p-3">
+        <h5 class="text-center mb-3">📊 Complaint Status</h5>
+
+        <div style="max-width: 300px; margin: auto;">
+          <canvas baseChart
+            [data]="{
+              labels: chartLabels,
+              datasets: [{ data: chartData }]
+            }"
+            [type]="'doughnut'">
+          </canvas>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 📋 Table -->
+    <div class="col-md-7">
+      <div class="card shadow border-0 p-3">
+        <h5 class="text-center mb-3">📋 Recent Complaints</h5>
+
+        <table class="table table-bordered table-hover text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Complaint No</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let c of complaints; let i = index">
+              <td>{{ i + 1 }}</td>
+
+              <!-- ✅ Correct field -->
+              <td>{{ c.complaint_no }}</td>
+
+              <!-- ✅ Category name -->
+              <td>{{ c.category?.name }}</td>
+
+              <!-- ✅ Status Badge -->
+              <td>
+                <span class="badge"
+                  [ngClass]="{
+                    'bg-warning text-dark': c.status=='Pending',
+                    'bg-info text-white': c.status=='In Progress',
+                    'bg-success': c.status=='Resolved'
+                  }">
+                  {{ c.status }}
+                </span>
+              </td>
+
+              <!-- ✅ Date -->
+              <td>{{ c.created_at | date:'short' }}</td>
+            </tr>
+
+            <!-- ✅ No Data -->
+            <tr *ngIf="complaints.length === 0">
+              <td colspan="5" class="text-center text-muted">
+                No complaints found
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>

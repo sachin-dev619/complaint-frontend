@@ -1,0 +1,85 @@
+<div class="sidebar" [class.active]="isOpen">
+
+  <h4 class="logo">⚡ ADMIN</h4>
+
+  <ul class="menu">
+
+    <!-- Dashboard -->
+    <li routerLink="/admin/dashboard" routerLinkActive="active">
+      <i class="bi bi-speedometer2"></i>
+      <span>Dashboard</span>
+    </li>
+
+    <!-- Complaints (Single Page) -->
+    <li routerLink="/admin/complaints" routerLinkActive="active">
+      <i class="bi bi-file-text"></i>
+      <span>Complaints</span>
+    </li>
+
+    <!-- Students -->
+    <li (click)="toggleMenu('students')" class="menu-item">
+      <div>
+        <i class="bi bi-people"></i>
+        <span>Students</span>
+      </div>
+      <i class="bi bi-chevron-down arrow" [class.rotate]="openMenu==='students'"></i>
+    </li>
+
+    <li *ngIf="openMenu==='students'" class="submenu">
+      <ul>
+        <li routerLink="/admin/students-list" routerLinkActive="active">All Students</li>
+        <li routerLink="/admin/add-student" routerLinkActive="active">Add Student</li>
+      </ul>
+    </li>
+
+    <!-- Categories -->
+    <li (click)="toggleMenu('categories')" class="menu-item">
+      <div>
+        <i class="bi bi-tags"></i>
+        <span>Categories</span>
+      </div>
+      <i class="bi bi-chevron-down arrow" [class.rotate]="openMenu==='categories'"></i>
+    </li>
+
+    <li *ngIf="openMenu==='categories'" class="submenu">
+      <ul>
+        <li routerLink="/admin/category" routerLinkActive="active">Category</li>
+        <li routerLink="/admin/subcategory" routerLinkActive="active">Subcategory</li>
+      </ul>
+    </li>
+
+    <!-- Reports -->
+    <li (click)="toggleMenu('reports')" class="menu-item">
+      <div>
+        <i class="bi bi-graph-up"></i>
+        <span>Reports</span>
+      </div>
+      <i class="bi bi-chevron-down arrow" [class.rotate]="openMenu==='reports'"></i>
+    </li>
+
+    <li *ngIf="openMenu==='reports'" class="submenu">
+      <ul>
+        <li routerLink="/admin/report/daily" routerLinkActive="active">Daily</li>
+        <li routerLink="/admin/report/monthly" routerLinkActive="active">Monthly</li>
+      </ul>
+    </li>
+
+    <!-- Settings -->
+    <li (click)="toggleMenu('settings')" class="menu-item">
+      <div>
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+      </div>
+      <i class="bi bi-chevron-down arrow" [class.rotate]="openMenu==='settings'"></i>
+    </li>
+
+    <li *ngIf="openMenu==='settings'" class="submenu">
+      <ul>
+        <li routerLink="/admin/profile" routerLinkActive="active">Profile</li>
+        <li routerLink="/admin/change-password" routerLinkActive="active">Change Password</li>
+      </ul>
+    </li>
+
+  </ul>
+
+</div>

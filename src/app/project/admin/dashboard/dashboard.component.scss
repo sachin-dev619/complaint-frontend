@@ -1,0 +1,54 @@
+/* CARD */
+.card-gradient {
+  border-radius: 15px;
+  background: linear-gradient(135deg, #4e73df, #224abe);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* ICON */
+.icon-circle {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+/* CHART */
+.chart-card {
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.chart-card:hover {
+  transform: scale(1.02);
+}
+
+/* FIX SIZE */
+.chart-box {
+  position: relative;
+}
+
+.small-chart {
+  height: 250px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* TABLE */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* BADGE */
+.badge {
+  padding: 6px 10px;
+  border-radius: 10px;
+}

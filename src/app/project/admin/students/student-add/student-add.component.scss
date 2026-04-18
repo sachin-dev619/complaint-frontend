@@ -1,0 +1,20 @@
+.card {
+  border-radius: 12px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input, select {
+  border-radius: 6px;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  display: block;
+  font-size: 13px;
+}
