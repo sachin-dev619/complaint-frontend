@@ -6,10 +6,11 @@ import { Injectable } from '@angular/core';
 })
 export class AdminService {
 
-  apiUrl = 'http://127.0.0.1:8000/api'; // Laravel API
+  apiUrl = 'http://127.0.0.1:8000/api'; // Laravel API base URL
 
   constructor(private http: HttpClient) {}
 
+  // ✅ Common Headers (Auth)
   getHeaders() {
     return {
       headers: new HttpHeaders({
@@ -18,7 +19,10 @@ export class AdminService {
     };
   }
 
-  // ✅ Get all students (with pagination)
+  // =========================
+  // 👨‍🎓 STUDENTS
+  // =========================
+
   getStudents(page: number = 1) {
     return this.http.get(
       `${this.apiUrl}/students?page=${page}&per_page=10`,
@@ -26,24 +30,41 @@ export class AdminService {
     );
   }
 
-  // ✅ Add student
   addStudent(data: any) {
-    return this.http.post(this.apiUrl + '/students', data, this.getHeaders());
+    return this.http.post(
+      `${this.apiUrl}/students`,
+      data,
+      this.getHeaders()
+    );
   }
 
-  // ✅ Category
+  // =========================
+  // 📂 CATEGORY
+  // =========================
+
   getCategories(page: number = 1) {
     return this.http.get(
       `${this.apiUrl}/categories?page=${page}&per_page=10`
     );
   }
 
+  addCategory(data: any) {
+    return this.http.post(
+      `${this.apiUrl}/categories`,
+      data
+    );
+  }
 
-addCategory(data: any) {
-  return this.http.post('http://localhost:8000/api/categories', data);
-}
+  deleteCategory(id: number) {
+    return this.http.delete(
+      `${this.apiUrl}/categories/${id}`
+    );
+  }
 
-  // ✅ Subcategory
+  // =========================
+  // 📁 SUBCATEGORY
+  // =========================
+
   getSubcategories(page: number = 1) {
     return this.http.get(
       `${this.apiUrl}/subcategories?page=${page}&per_page=10`
@@ -51,20 +72,22 @@ addCategory(data: any) {
   }
 
   addSubcategory(data: any) {
-    return this.http.post('http://localhost:8000/api/subcategories', data);
+    return this.http.post(
+      `${this.apiUrl}/subcategories`,
+      data
+    );
   }
 
-  // Category delete
-  deleteCategory(id: number) {
-    return this.http.delete(`http://localhost:8000/api/categories/${id}`);
-  }
-
-  // Subcategory delete
   deleteSubcategory(id: number) {
-    return this.http.delete(`http://localhost:8000/api/subcategories/${id}`);
+    return this.http.delete(
+      `${this.apiUrl}/subcategories/${id}`
+    );
   }
 
-  // Daily report
+  // =========================
+  // 📊 REPORTS
+  // =========================
+
   getDailyReport(date: string, page: number = 1) {
     return this.http.get(
       `${this.apiUrl}/reports/daily?date=${date}&page=${page}&per_page=10`
@@ -77,26 +100,40 @@ addCategory(data: any) {
     );
   }
 
-  // complaint.service.ts
+  // =========================
+  // 📝 COMPLAINT
+  // =========================
 
   updateStatus(id: number, data: any) {
-    return this.http.post(`http://127.0.0.1:8000/api/update-status/${id}`, data);
+    return this.http.post(
+      `${this.apiUrl}/update-status/${id}`,
+      data
+    );
   }
 
   getComplaintById(id: number) {
-    return this.http.get(`http://127.0.0.1:8000/api/admin/complaints/${id}`);
+    return this.http.get(
+      `${this.apiUrl}/admin/complaints/${id}`
+    );
   }
 
   // =========================
-// 👤 PROFILE
+  // 👤 PROFILE
   // =========================
 
   getProfile() {
-    return this.http.get(`${this.apiUrl}/profile`, this.getHeaders());
+    return this.http.get(
+      `${this.apiUrl}/profile`,
+      this.getHeaders()
+    );
   }
 
   updateProfile(data: any) {
-    return this.http.post(`${this.apiUrl}/profile-update`, data, this.getHeaders());
+    return this.http.post(
+      `${this.apiUrl}/profile-update`,
+      data,
+      this.getHeaders()
+    );
   }
 
   // =========================
@@ -104,6 +141,10 @@ addCategory(data: any) {
   // =========================
 
   changePassword(data: any) {
-    return this.http.post(`${this.apiUrl}/change-password`, data, this.getHeaders());
+    return this.http.post(
+      `${this.apiUrl}/change-password`,
+      data,
+      this.getHeaders()
+    );
   }
 }

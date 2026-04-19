@@ -1,22 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComplaintService {
 
-   API_URL = 'http://127.0.0.1:8000/api';
+  API_URL = 'http://127.0.0.1:8000/api';
 
   constructor(private http: HttpClient) {}
 
-  // ✅ Add Complaint (Student)
+  // =========================
+  // 📝 STUDENT COMPLAINT
+  // =========================
+
+  // ✅ Add Complaint
   addComplaint(data: any) {
     return this.http.post(`${this.API_URL}/complaints`, data);
   }
 
-  // ✅ Get My Complaints (Student)
+  // ✅ Get My Complaints
   getMyComplaints() {
     return this.http.get(`${this.API_URL}/my-complaints`);
   }
@@ -26,39 +29,44 @@ export class ComplaintService {
     return this.http.get(`${this.API_URL}/complaints/${id}`);
   }
 
-  // ✅ Admin: Get All Complaints
+  // =========================
+  // 🛠️ ADMIN COMPLAINT
+  // =========================
 
+  // ✅ Get All Complaints (Pagination)
   getAllComplaints(page: number = 1) {
     return this.http.get<any>(
       `${this.API_URL}/all-complaints?page=${page}&per_page=10`
     );
   }
 
-  // ✅ Admin: Update Status
+  // ✅ Update Status
   updateStatus(id: number, data: any) {
     return this.http.post(`${this.API_URL}/update-status/${id}`, data);
   }
+
+  // =========================
+  // 📂 CATEGORY / SUBCATEGORY
+  // =========================
 
   getCategories() {
     return this.http.get(`${this.API_URL}/categories`);
   }
 
-  // ✅ Subcategory by category
   getSubcategoriesByCategory(id: number) {
     return this.http.get(`${this.API_URL}/subcategories/${id}`);
   }
 
-  // updateComplaint(id: number, data: any) {
-  //   return this.http.put(`${this.API_URL}/complaints/${id}`, data);
-  // }
+  // =========================
+  // ✏️ UPDATE COMPLAINT
+  // =========================
 
   updateComplaint(id: number, formData: FormData) {
-  formData.append('_method', 'PUT');   // 🔥 IMPORTANT
+    formData.append('_method', 'PUT'); // Laravel PUT workaround
 
-  return this.http.post(
-    `http://127.0.0.1:8000/api/complaints/${id}`,
-    formData
-  );
-}
-  
+    return this.http.post(
+      `${this.API_URL}/complaints/${id}`,
+      formData
+    );
+  }
 }
