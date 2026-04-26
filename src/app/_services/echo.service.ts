@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
+import { environment } from 'src/environments/environment';
 
 (window as any).Pusher = Pusher;
 
@@ -17,12 +18,15 @@ export class EchoService {
       broadcaster: 'reverb',
       key: 'localkey',
 
-      wsHost: '127.0.0.1',
-      wsPort: 8080,
-      forceTLS: false,
-      enabledTransports: ['ws'],
+      // ✅ Dynamic host (works for both local & production)
+      wsHost: new URL(environment.baseUrl).hostname,
+      wsPort: 443,
+      forceTLS: true,
 
-      authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+      enabledTransports: ['ws', 'wss'],
+
+      // ✅ Dynamic auth endpoint
+      authEndpoint: `${environment.baseUrl}/broadcasting/auth`,
 
       auth: {
         headers: {
@@ -31,12 +35,14 @@ export class EchoService {
       }
     });
 
+    // ✅ Connection success
     this.echo.connector.pusher.connection.bind('connected', () => {
       console.log('✅ REVERB CONNECTED SUCCESSFULLY');
     });
 
+    // ❌ Error handling
     this.echo.connector.pusher.connection.bind('error', (err: any) => {
-      console.log('❌ REVERB ERROR:', err);
+      console.error('❌ REVERB ERROR:', err);
     });
   }
 }

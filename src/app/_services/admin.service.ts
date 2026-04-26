@@ -1,23 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  apiUrl = 'http://127.0.0.1:8000/api'; // Laravel API base URL
+  API_URL = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
-
-  // ✅ Common Headers (Auth)
-  getHeaders() {
-    return {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      })
-    };
-  }
 
   // =========================
   // 👨‍🎓 STUDENTS
@@ -25,16 +17,14 @@ export class AdminService {
 
   getStudents(page: number = 1) {
     return this.http.get(
-      `${this.apiUrl}/students?page=${page}&per_page=10`,
-      this.getHeaders()
+      `${this.API_URL}/students?page=${page}&per_page=10`
     );
   }
 
   addStudent(data: any) {
     return this.http.post(
-      `${this.apiUrl}/students`,
-      data,
-      this.getHeaders()
+      `${this.API_URL}/students`,
+      data
     );
   }
 
@@ -44,20 +34,20 @@ export class AdminService {
 
   getCategories(page: number = 1) {
     return this.http.get(
-      `${this.apiUrl}/categories?page=${page}&per_page=10`
+      `${this.API_URL}/categories?page=${page}&per_page=10`
     );
   }
 
   addCategory(data: any) {
     return this.http.post(
-      `${this.apiUrl}/categories`,
+      `${this.API_URL}/categories`,
       data
     );
   }
 
   deleteCategory(id: number) {
     return this.http.delete(
-      `${this.apiUrl}/categories/${id}`
+      `${this.API_URL}/categories/${id}`
     );
   }
 
@@ -67,20 +57,20 @@ export class AdminService {
 
   getSubcategories(page: number = 1) {
     return this.http.get(
-      `${this.apiUrl}/subcategories?page=${page}&per_page=10`
+      `${this.API_URL}/subcategories?page=${page}&per_page=10`
     );
   }
 
   addSubcategory(data: any) {
     return this.http.post(
-      `${this.apiUrl}/subcategories`,
+      `${this.API_URL}/subcategories`,
       data
     );
   }
 
   deleteSubcategory(id: number) {
     return this.http.delete(
-      `${this.apiUrl}/subcategories/${id}`
+      `${this.API_URL}/subcategories/${id}`
     );
   }
 
@@ -90,13 +80,13 @@ export class AdminService {
 
   getDailyReport(date: string, page: number = 1) {
     return this.http.get(
-      `${this.apiUrl}/reports/daily?date=${date}&page=${page}&per_page=10`
+      `${this.API_URL}/reports/daily?date=${date}&page=${page}&per_page=10`
     );
   }
 
   getMonthlyReport(month: string, page: number = 1) {
     return this.http.get(
-      `${this.apiUrl}/reports/monthly?month=${month}&page=${page}&per_page=10`
+      `${this.API_URL}/reports/monthly?month=${month}&page=${page}&per_page=10`
     );
   }
 
@@ -106,14 +96,14 @@ export class AdminService {
 
   updateStatus(id: number, data: any) {
     return this.http.post(
-      `${this.apiUrl}/update-status/${id}`,
+      `${this.API_URL}/update-status/${id}`,
       data
     );
   }
 
   getComplaintById(id: number) {
     return this.http.get(
-      `${this.apiUrl}/admin/complaints/${id}`
+      `${this.API_URL}/admin/complaints/${id}`
     );
   }
 
@@ -123,16 +113,14 @@ export class AdminService {
 
   getProfile() {
     return this.http.get(
-      `${this.apiUrl}/profile`,
-      this.getHeaders()
+      `${this.API_URL}/profile`
     );
   }
 
   updateProfile(data: any) {
     return this.http.post(
-      `${this.apiUrl}/profile-update`,
-      data,
-      this.getHeaders()
+      `${this.API_URL}/profile-update`,
+      data
     );
   }
 
@@ -142,9 +130,8 @@ export class AdminService {
 
   changePassword(data: any) {
     return this.http.post(
-      `${this.apiUrl}/change-password`,
-      data,
-      this.getHeaders()
+      `${this.API_URL}/change-password`,
+      data
     );
   }
 }
