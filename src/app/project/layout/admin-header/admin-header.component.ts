@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { EchoService } from 'src/app/_services/echo.service';
+import { ApiService } from 'src/app/_services/api.service';
 
 @Component({
   selector: 'app-admin-header',
@@ -16,9 +16,9 @@ export class AdminHeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private api: ApiService,
     private echoService: EchoService,
-    private ngZone: NgZone // ✅ IMPORTANT
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -26,25 +26,24 @@ export class AdminHeaderComponent implements OnInit {
     this.listenRealtime();
   }
 
-  // 🔔 Load from DB
+  // 🔔 Load notifications from API
   loadNotifications() {
-    this.http.get('http://127.0.0.1:8000/api/admin/notifications')
+    this.api.get('admin/notifications')
       .subscribe((res: any) => {
         this.notifications = res;
         this.updateCount();
       });
   }
 
-  // ⚡ ✅ FIXED REALTIME LISTENER
+  // ⚡ Realtime listener
   listenRealtime() {
 
     this.echoService.echo
-      .private('admin.notifications') // ✅ FIX HERE
+      .private('admin.notifications')
       .listen('.notification.created', (data: any) => {
 
         console.log('🔥 Realtime Admin:', data);
 
-        // ✅ Angular UI refresh fix
         this.ngZone.run(() => {
           this.notifications.unshift(data.notification);
           this.updateCount();
@@ -61,28 +60,24 @@ export class AdminHeaderComponent implements OnInit {
   }
 
   markAsRead(notification: any) {
-    this.http.put(
-      `http://127.0.0.1:8000/api/notifications/${notification.id}/read`,
-      {}
-    ).subscribe(() => {
-      notification.is_read = 1;
-      this.updateCount();
-    });
+    this.api.put(`notifications/${notification.id}/read`, {})
+      .subscribe(() => {
+        notification.is_read = 1;
+        this.updateCount();
+      });
   }
 
   markAllRead() {
-    this.http.put(
-      `http://127.0.0.1:8000/api/notifications/read-all`,
-      {}
-    ).subscribe(() => {
-      this.notifications.forEach(n => n.is_read = 1);
-      this.updateCount();
-    });
+    this.api.put(`notifications/read-all`, {})
+      .subscribe(() => {
+        this.notifications.forEach(n => n.is_read = 1);
+        this.updateCount();
+      });
   }
 
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = '/login';
+    this.router.navigate(['/login']);
   }
 }
