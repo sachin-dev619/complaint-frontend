@@ -14,18 +14,15 @@ export class EchoService {
 
   constructor() {
 
-    this.echo = new Echo<any>({
-      broadcaster: 'reverb',
-      key: 'localkey',
+    this.echo = new Echo({
+      broadcaster: 'pusher', // ✅ FIXED
 
-      // ✅ Dynamic host (works for both local & production)
-      wsHost: new URL(environment.baseUrl).hostname,
-      wsPort: 443,
-      forceTLS: true,
+      key: '450a44787be66a6cc6ec', // ✅ your pusher key
+      cluster: 'ap2', // ✅ your cluster
 
-      enabledTransports: ['ws', 'wss'],
+      forceTLS: true, // ✅ required for Railway (HTTPS)
 
-      // ✅ Dynamic auth endpoint
+      // ✅ Auth endpoint (important for private channels)
       authEndpoint: `${environment.baseUrl}/broadcasting/auth`,
 
       auth: {
@@ -35,14 +32,14 @@ export class EchoService {
       }
     });
 
-    // ✅ Connection success
+    // ✅ Success log
     this.echo.connector.pusher.connection.bind('connected', () => {
-      console.log('✅ REVERB CONNECTED SUCCESSFULLY');
+      console.log('✅ PUSHER CONNECTED SUCCESSFULLY');
     });
 
-    // ❌ Error handling
+    // ❌ Error log
     this.echo.connector.pusher.connection.bind('error', (err: any) => {
-      console.error('❌ REVERB ERROR:', err);
+      console.error('❌ PUSHER ERROR:', err);
     });
   }
 }

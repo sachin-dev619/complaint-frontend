@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  // API_URL = 'http://127.0.0.1:8000/api';
   // API_URL = 'https://complaint-system-production-78d7.up.railway.app/api'
   API_URL = environment.apiUrl;
 
