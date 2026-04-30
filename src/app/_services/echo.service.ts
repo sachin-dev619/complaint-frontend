@@ -13,7 +13,8 @@ export class EchoService {
   public echo: Echo<any>;
 
   constructor() {
-    const bc: BroadcastingConfig = environment.broadcasting;
+    const bc = environment.broadcasting as BroadcastingConfig;
+    const rawBc = environment.broadcasting as Record<string, unknown>;
 
     if (bc.broadcaster === 'reverb') {
       this.echo = new Echo({
@@ -35,9 +36,9 @@ export class EchoService {
     } else {
       this.echo = new Echo({
         broadcaster: 'pusher',
-        key: bc.appKey,
-        cluster: bc.cluster,
-        forceTLS: bc.forceTLS,
+        key: String(rawBc['appKey'] ?? ''),
+        cluster: String(rawBc['cluster'] ?? ''),
+        forceTLS: Boolean(rawBc['forceTLS']),
         authEndpoint: `${environment.baseUrl}/broadcasting/auth`,
         auth: {
           headers: {
