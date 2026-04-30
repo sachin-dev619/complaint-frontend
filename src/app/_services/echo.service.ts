@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { environment } from 'src/environments/environment';
+import type { BroadcastingConfig } from 'src/environments/environment.model';
 
 (window as any).Pusher = Pusher;
 
@@ -12,7 +13,7 @@ export class EchoService {
   public echo: Echo<any>;
 
   constructor() {
-    const bc = environment.broadcasting;
+    const bc: BroadcastingConfig = environment.broadcasting;
 
     if (bc.broadcaster === 'reverb') {
       this.echo = new Echo({
