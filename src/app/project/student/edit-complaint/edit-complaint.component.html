@@ -113,7 +113,7 @@
       <img *ngIf="previewUrl" [src]="previewUrl" class="img-fluid mb-3" style="max-height:150px;">
 
       <img *ngIf="complaint?.file && !previewUrl"
-           [src]="'http://127.0.0.1:8000/storage/' + complaint.file"
+           [src]="storageUrl(complaint.file)"
            class="img-fluid mb-3"
            style="max-height:150px;">
 

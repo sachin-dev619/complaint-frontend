@@ -73,7 +73,7 @@
         <!-- ✅ If image exists -->
         <img
           *ngIf="complaint.file"
-          [src]="'http://127.0.0.1:8000/storage/' + complaint.file"
+          [src]="storageUrl(complaint.file)"
           class="img-preview"
         >
 

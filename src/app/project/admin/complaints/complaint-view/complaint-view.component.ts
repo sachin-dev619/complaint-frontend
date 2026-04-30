@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/_services/admin.service';
+import { storageUrl } from 'src/app/_helpers/storage-url';
 
 @Component({
   selector: 'app-complaint-view',
@@ -10,6 +11,8 @@ import { AdminService } from 'src/app/_services/admin.service';
 export class ComplaintViewComponent implements OnInit {
 
   complaint: any;
+
+  readonly storageUrl = storageUrl;
 
   constructor(
     private route: ActivatedRoute,

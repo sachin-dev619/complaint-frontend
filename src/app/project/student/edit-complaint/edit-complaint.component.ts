@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ComplaintService } from 'src/app/_services/complaint.service';
 import { AdminService } from 'src/app/_services/admin.service';
 import { ToastrService } from 'ngx-toastr';
+import { storageUrl } from 'src/app/_helpers/storage-url';
 
 @Component({
   selector: 'app-edit-complaint',
@@ -27,6 +28,8 @@ export class EditComplaintComponent implements OnInit {
   loading = false;
 
   serverErrors: any = {};
+
+  readonly storageUrl = storageUrl;
 
   constructor(
     private route: ActivatedRoute,
