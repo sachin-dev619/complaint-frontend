@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { resolveApiUrl } from 'src/app/_helpers/runtime-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComplaintService {
 
-  API_URL = environment.apiUrl;
+  API_URL = resolveApiUrl();
 
   constructor(private http: HttpClient) {}
 
