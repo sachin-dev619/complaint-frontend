@@ -20,16 +20,10 @@ export class EchoService {
     const baseHost = new URL(baseUrl).hostname;
 
     if (bc.broadcaster === 'reverb') {
-      const wsHost =
-        bc.wsHostPublic?.trim() ||
-        (bc.wsHost === '127.0.0.1' || bc.wsHost === 'localhost'
-          ? baseHost
-          : bc.wsHost);
-
       this.echo = new Echo({
         broadcaster: 'reverb',
         key: bc.appKey,
-        wsHost,
+        wsHost: bc.wsHost === '127.0.0.1' || bc.wsHost === 'localhost' ? baseHost : bc.wsHost,
         wsPort: bc.wsPort,
         wssPort: bc.wssPort,
         forceTLS: bc.forceTLS,
