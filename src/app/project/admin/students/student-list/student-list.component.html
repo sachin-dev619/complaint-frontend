@@ -1,78 +1,83 @@
-<div class="container mt-4">
-  <div class="card shadow p-3">
+<div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4">
 
-    <h4 class="text-center mb-3">📋 Student List</h4>
+  <div class="card shadow admin-panel-card">
 
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center">
+    <div class="card-body">
 
-        <thead class="table-dark">
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Roll No</th>
-            <th>Class</th>
-            <th>Division</th>
-            <th>Gender</th>
-            <th>Phone</th>
-          </tr>
-        </thead>
+      <h4 class="text-center mb-3 fs-5">Student list</h4>
 
-        <tbody>
+      <div class="table-responsive rounded border">
+        <table class="table table-sm table-bordered table-hover align-middle text-center mb-0 student-admin-table">
 
-          <tr *ngFor="let s of students; let i = index">
-            <td>{{ (currentPage - 1) * 10 + i + 1 }}</td>
-            <td>{{ s.first_name }} {{ s.last_name }}</td>
-            <td>{{ s.roll_no }}</td>
-            <td>{{ s.classModel?.name || s.class_models_id }}</td>
-            <td>{{ s.division?.name || s.division_id }}</td>
-            <td>{{ s.gender }}</td>
-            <td>{{ s.phone }}</td>
-          </tr>
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Roll No</th>
+              <th>Class</th>
+              <th>Division</th>
+              <th>Gender</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
 
-          <tr *ngIf="students.length === 0">
-            <td colspan="7">No students found</td>
-          </tr>
+          <tbody>
 
-        </tbody>
+            <tr *ngFor="let s of students; let i = index">
+              <td>{{ (currentPage - 1) * 10 + i + 1 }}</td>
+              <td class="text-start">{{ s.first_name }} {{ s.last_name }}</td>
+              <td>{{ s.roll_no }}</td>
+              <td>{{ s.classModel?.name || s.class_models_id }}</td>
+              <td>{{ s.division?.name || s.division_id }}</td>
+              <td>{{ s.gender }}</td>
+              <td class="text-nowrap">{{ s.phone }}</td>
+            </tr>
 
-      </table>
-    </div>
+            <tr *ngIf="students.length === 0">
+              <td colspan="7">No students found</td>
+            </tr>
 
-    <!-- ✅ PAGINATION -->
-    <nav class="mt-3 d-flex justify-content-between align-items-center">
+          </tbody>
 
-      <div>
-        Showing {{ students.length }} of {{ total }} entries
+        </table>
       </div>
 
-      <ul class="pagination mb-0">
+      <nav class="mt-3 d-flex justify-content-between align-items-center admin-pagination-bar">
 
-        <li class="page-item" [class.disabled]="currentPage === 1">
-          <button class="page-link" (click)="changePage(currentPage - 1)">
-            Previous
-          </button>
-        </li>
+        <div class="small text-muted">
+          Showing {{ students.length }} of {{ total }} entries
+        </div>
 
-        <li
-          class="page-item"
-          *ngFor="let page of [].constructor(lastPage); let i = index"
-          [class.active]="currentPage === (i + 1)"
-        >
-          <button class="page-link" (click)="changePage(i + 1)">
-            {{ i + 1 }}
-          </button>
-        </li>
+        <ul class="pagination mb-0 pagination-sm flex-wrap justify-content-center justify-content-md-end">
 
-        <li class="page-item" [class.disabled]="currentPage === lastPage">
-          <button class="page-link" (click)="changePage(currentPage + 1)">
-            Next
-          </button>
-        </li>
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button type="button" class="page-link" (click)="changePage(currentPage - 1)">
+              Previous
+            </button>
+          </li>
 
-      </ul>
+          <li
+            class="page-item"
+            *ngFor="let page of [].constructor(lastPage); let i = index"
+            [class.active]="currentPage === (i + 1)"
+          >
+            <button type="button" class="page-link" (click)="changePage(i + 1)">
+              {{ i + 1 }}
+            </button>
+          </li>
 
-    </nav>
+          <li class="page-item" [class.disabled]="currentPage === lastPage">
+            <button type="button" class="page-link" (click)="changePage(currentPage + 1)">
+              Next
+            </button>
+          </li>
+
+        </ul>
+
+      </nav>
+
+    </div>
 
   </div>
+
 </div>

@@ -1,46 +1,45 @@
-<div class="page-card">
+<div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4">
 
-  <h4 class="mb-3">👤 Profile</h4>
+  <div class="page-card">
 
-  <form (ngSubmit)="updateProfile()">
+    <h4 class="mb-3 text-center text-md-start fs-5">Profile</h4>
 
-    <!-- Name -->
-    <label>Name</label>
-    <input
-      class="form-control mb-3"
-      [(ngModel)]="profile.name"
-      name="name"
-    >
+    <form (ngSubmit)="updateProfile()">
 
-    <!-- Email -->
-    <label>Email</label>
-    <input
-      class="form-control mb-3"
-      [(ngModel)]="profile.email"
-      name="email"
-    >
+      <label class="form-label">Name</label>
+      <input
+        class="form-control mb-3"
+        [(ngModel)]="profile.name"
+        name="name"
+      >
 
-    <!-- Role (readonly) -->
-    <label>Role</label>
-    <input
-      class="form-control mb-3"
-      [value]="profile.role"
-      readonly
-    >
+      <label class="form-label">Email</label>
+      <input
+        class="form-control mb-3"
+        [(ngModel)]="profile.email"
+        name="email"
+      >
 
-    <!-- Created Date -->
-    <label>Account Created</label>
-    <input
-      class="form-control mb-3"
-      [value]="profile.created_at | date:'medium'"
-      readonly
-    >
+      <label class="form-label">Role</label>
+      <input
+        class="form-control mb-3"
+        [value]="profile.role"
+        readonly
+      >
 
-    <!-- Button -->
-    <button class="btn btn-primary w-100">
-      Update Profile
-    </button>
+      <label class="form-label">Account Created</label>
+      <input
+        class="form-control mb-3"
+        [value]="profile.created_at | date:'medium'"
+        readonly
+      >
 
-  </form>
+      <button type="submit" class="btn btn-primary w-100 py-2">
+        Update Profile
+      </button>
+
+    </form>
+
+  </div>
 
 </div>

@@ -2,17 +2,30 @@
   border-radius: 12px;
 }
 
-.table th {
-  font-size: 14px;
+.complaint-admin-table {
+  min-width: 720px;
 }
 
-.table td {
-  font-size: 13px;
+.complaint-admin-table th,
+.complaint-admin-table td {
+  font-size: 0.8125rem;
+  vertical-align: middle;
+
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+  }
 }
 
 /* Status Colors */
 .status-dropdown {
   font-weight: 600;
+  min-width: 7.5rem;
+  font-size: 0.8125rem;
+
+  @media (min-width: 576px) {
+    min-width: 8.75rem;
+    font-size: 0.875rem;
+  }
 }
 
 .status-pending {
@@ -30,9 +43,10 @@
   color: #155724;
 }
 
-/* Buttons */
-button {
-  min-width: 40px;
+/* Remark cell — keep inputs usable inside horizontal scroll */
+.complaint-admin-table .form-control {
+  min-width: 6rem;
+  font-size: 0.8125rem;
 }
 
 /* Input focus */

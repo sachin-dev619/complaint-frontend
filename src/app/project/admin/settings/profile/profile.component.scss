@@ -1,10 +1,11 @@
 .page-card {
-  max-width: 500px;
-  margin: auto;
-  padding: 25px;
+  width: 100%;
+  max-width: min(500px, 100%);
+  margin-inline: auto;
+  padding: clamp(1rem, 4vw, 1.5rem);
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 input {

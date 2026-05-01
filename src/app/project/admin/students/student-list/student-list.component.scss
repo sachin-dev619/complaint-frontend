@@ -1,8 +1,14 @@
-.table {
-  border-radius: 10px;
-  overflow: hidden;
+.student-admin-table {
+  min-width: 640px;
 }
 
-th, td {
-  vertical-align: middle;
+.student-admin-table th,
+.student-admin-table td {
+  font-size: 0.8125rem;
+  padding: 0.45rem 0.5rem;
+
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.65rem;
+  }
 }

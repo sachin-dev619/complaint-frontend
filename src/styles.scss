@@ -28,9 +28,52 @@
 
 .page-card {
   background: #fff;
-  padding: 20px;
+  padding: clamp(1rem, 3vw, 1.25rem);
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+
+/* Shared shell for admin routed views */
+.admin-page {
+  max-width: 100%;
+}
+
+.admin-panel-card {
+  border-radius: 12px;
+}
+
+.admin-panel-card .card-body,
+.admin-panel-card.card > .card-body {
+  padding: 0.75rem;
+
+  @media (min-width: 576px) {
+    padding: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: 1.25rem;
+  }
+}
+
+/* Pagination: stack on small screens */
+.admin-pagination-bar {
+  gap: 0.75rem;
+
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+    align-items: stretch !important;
+    text-align: center;
+
+    .pagination {
+      justify-content: center;
+    }
+  }
+}
+
+.admin-pagination-bar .pagination {
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .page-title {

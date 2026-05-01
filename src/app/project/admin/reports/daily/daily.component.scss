@@ -14,18 +14,24 @@ input {
   border-radius: 6px;
 }
 
-/* Table */
-.table {
-  border-radius: 10px;
-  overflow: hidden;
+.report-table {
+  min-width: 900px;
 }
 
-.table thead th {
-  font-size: 14px;
+.report-table thead th,
+.report-table tbody td {
+  font-size: 0.75rem;
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 0.875rem;
+  }
 }
 
-/* Hover effect */
-.table tbody tr:hover {
+.report-table tbody tr:hover {
   background-color: #f8f9fa;
 }
 

@@ -18,10 +18,17 @@ textarea {
 
 /* Image */
 .img-preview {
-  max-width: 300px;
+  max-width: min(100%, 420px);
+  width: 100%;
+  height: auto;
   border-radius: 10px;
   border: 1px solid #ddd;
   margin-top: 10px;
+}
+
+.complaint-textarea {
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 /* No Image Box */
