@@ -1,10 +1,6 @@
 import type { EnvironmentConfig } from './environment.model';
 
-/**
- * Local Laravel (`php artisan serve`, :8000) + Reverb (`php artisan reverb:start`, :8080).
- * If you see ERR_CONNECTION_REFUSED to :8000, start the API or run:
- * `npm run start:remote` (uses Railway backend while debugging Angular).
- */
+/** Local Laravel (`php artisan serve`) + Reverb (`php artisan reverb:start`). */
 export const environment = {
   production: false,
   apiUrl: 'http://127.0.0.1:8000/api',

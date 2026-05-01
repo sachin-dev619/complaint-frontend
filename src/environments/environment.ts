@@ -1,8 +1,7 @@
 import type { EnvironmentConfig } from './environment.model';
-import { RAILWAY_BACKEND_ORIGIN } from './railway-backend-origin';
 
 /** Production defaults — must match Laravel `.env` (`PUSHER_APP_KEY`, Reverb / broadcasting). */
-const origin = RAILWAY_BACKEND_ORIGIN;
+const origin = 'https://complaint-system-production-78d7.up.railway.app';
 
 export const environment = {
   production: true,
