@@ -6,6 +6,8 @@ export type BroadcastingConfig =
       wsPort: number;
       wssPort: number;
       forceTLS: boolean;
+      /** Hostname only — use when Reverb has its own public URL on Railway (see echo.service / backend docs). */
+      wsHostPublic?: string;
     }
   | {
       broadcaster: 'pusher';

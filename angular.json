@@ -108,7 +108,7 @@
               "browserTarget": "complaint-frontend:build:development-remote"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development-remote"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
