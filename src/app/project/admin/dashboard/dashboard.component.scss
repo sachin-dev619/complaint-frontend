@@ -1,54 +1,201 @@
-/* CARD */
+.dashboard-page {
+  max-width: 100%;
+}
+
+/* Stat cards */
+.stat-card-body {
+  padding: 0.85rem 1rem;
+
+  @media (min-width: 576px) {
+    padding: 1rem 1.15rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: var(--bs-card-spacer-y, 1rem) var(--bs-card-spacer-x, 1rem);
+  }
+}
+
+.stat-label {
+  font-size: 0.8rem;
+
+  @media (min-width: 576px) {
+    font-size: 0.875rem;
+  }
+}
+
+.stat-value {
+  font-size: clamp(1.35rem, 5vw, 2rem);
+  line-height: 1.15;
+}
+
 .card-gradient {
   border-radius: 15px;
   background: linear-gradient(135deg, #4e73df, #224abe);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  border: none;
 }
 
-/* ICON */
 .icon-circle {
-  width: 55px;
-  height: 55px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 1.15rem;
+
+  @media (min-width: 576px) {
+    width: 52px;
+    height: 52px;
+    font-size: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
 }
 
-/* CHART */
+.section-title {
+  font-size: 0.95rem;
+
+  @media (min-width: 576px) {
+    font-size: 1rem;
+  }
+}
+
+/* Charts */
 .chart-card {
   border-radius: 15px;
-  transition: 0.3s;
+  transition: box-shadow 0.25s ease;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.12) !important;
+    }
+  }
 }
 
-.chart-card:hover {
-  transform: scale(1.02);
-}
-
-/* FIX SIZE */
 .chart-box {
   position: relative;
+  width: 100%;
 }
 
-.small-chart {
-  height: 250px;
+.chart-box--status {
+  height: 220px;
+
+  @media (min-width: 400px) {
+    height: 240px;
+  }
+
+  @media (min-width: 576px) {
+    height: 260px;
+  }
+
+  @media (min-width: 992px) {
+    height: 280px;
+  }
 }
 
-canvas {
+.chart-box--month {
+  height: 200px;
+
+  @media (min-width: 400px) {
+    height: 220px;
+  }
+
+  @media (min-width: 576px) {
+    height: 240px;
+  }
+
+  @media (min-width: 992px) {
+    height: 260px;
+  }
+}
+
+.chart-box canvas {
   width: 100% !important;
   height: 100% !important;
 }
 
-/* TABLE */
-.table {
-  border-radius: 10px;
-  overflow: hidden;
+/* Recent complaints */
+.recent-card {
+  border-radius: 15px;
 }
 
-/* BADGE */
+.recent-table {
+  font-size: 0.8125rem;
+
+  @media (min-width: 576px) {
+    font-size: 0.875rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.65rem;
+    vertical-align: middle;
+
+    @media (min-width: 576px) {
+      padding: 0.65rem 0.75rem;
+    }
+  }
+}
+
+.recent-th-user,
+.recent-td-user {
+  white-space: nowrap;
+  max-width: 35vw;
+
+  @media (min-width: 576px) {
+    max-width: 8rem;
+  }
+}
+
+.recent-td-user {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-th-text,
+.recent-td-text {
+  min-width: 8rem;
+}
+
+.complaint-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+@media (min-width: 768px) {
+  .complaint-preview {
+    -webkit-line-clamp: 3;
+  }
+}
+
+.recent-th-status,
+.recent-td-status {
+  width: 1%;
+}
+
 .badge {
-  padding: 6px 10px;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+
+  @media (min-width: 576px) {
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 0.8125rem;
+  }
+}
+
+.table {
   border-radius: 10px;
 }

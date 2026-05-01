@@ -89,12 +89,14 @@ export class DashboardComponent implements OnInit {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '70%',
+        cutout: '68%',
         plugins: {
           legend: {
             position: 'bottom',
             labels: {
-              padding: 15
+              padding: 10,
+              boxWidth: 12,
+              font: { size: 11 }
             }
           }
         }
@@ -108,14 +110,18 @@ export class DashboardComponent implements OnInit {
 
           const total = Object.values(statusCounts).reduce((a: any, b: any) => a + b, 0);
 
-          ctx.font = 'bold 22px sans-serif';
+          const scale = Math.min(width, height) / 240;
+          const numSize = Math.round(Math.max(14, Math.min(22, 22 * scale)));
+          const subSize = Math.round(Math.max(10, Math.min(12, 12 * scale)));
+
+          ctx.font = `bold ${numSize}px sans-serif`;
           ctx.textAlign = 'center';
           ctx.fillStyle = '#333';
           ctx.fillText(total, width / 2, height / 2);
 
-          ctx.font = '12px sans-serif';
+          ctx.font = `${subSize}px sans-serif`;
           ctx.fillStyle = '#777';
-          ctx.fillText('Total', width / 2, height / 2 + 20);
+          ctx.fillText('Total', width / 2, height / 2 + numSize * 0.55);
 
           ctx.save();
         }
@@ -134,6 +140,11 @@ export class DashboardComponent implements OnInit {
       counts[m]++;
     });
 
+    const vw =
+      typeof window !== 'undefined' ? window.innerWidth : 1024;
+    const compact = vw < 576;
+    const narrow = vw < 400;
+
     new Chart('monthChart', {
       type: 'bar',
       data: {
@@ -146,7 +157,31 @@ export class DashboardComponent implements OnInit {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: !narrow
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              maxRotation: 45,
+              minRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: narrow ? 6 : 12,
+              font: { size: compact ? 10 : 11 }
+            },
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+              font: { size: compact ? 10 : 11 }
+            }
+          }
+        }
       }
     });
   }

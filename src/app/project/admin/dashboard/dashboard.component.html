@@ -1,18 +1,18 @@
-<div class="container-fluid py-4">
+<div class="dashboard-page container-fluid py-3 py-md-4 px-2 px-sm-3">
 
-  <!-- 🔥 CARDS -->
-  <div class="row g-4 mb-4">
-    <div class="col-md-3" *ngFor="let c of cards">
+  <!-- Stat cards -->
+  <div class="row g-3 g-md-4 mb-3 mb-md-4">
+    <div class="col-12 col-sm-6 col-xl-3" *ngFor="let c of cards">
       <div class="card card-gradient text-white h-100">
-        <div class="card-body d-flex align-items-center">
+        <div class="card-body stat-card-body d-flex align-items-center">
 
-          <div class="icon-circle me-3">
+          <div class="icon-circle flex-shrink-0 me-2 me-md-3">
             <i [ngClass]="c.icon"></i>
           </div>
 
-          <div>
-            <h6 class="mb-1">{{c.title}}</h6>
-            <h2 class="fw-bold mb-0">{{c.value}}</h2>
+          <div class="min-w-0">
+            <h6 class="stat-label mb-1 text-white text-opacity-90">{{ c.title }}</h6>
+            <h2 class="stat-value fw-bold mb-0">{{ c.value }}</h2>
           </div>
 
         </div>
@@ -20,66 +20,73 @@
     </div>
   </div>
 
-  <!-- 🔥 CHARTS -->
-  <div class="row g-4 mb-4">
+  <!-- Charts -->
+  <div class="row g-3 g-md-4 mb-3 mb-md-4">
 
-    <!-- STATUS CHART -->
-    <div class="col-md-6">
-      <div class="card shadow-sm p-3 chart-card">
-        <h6 class="fw-semibold mb-3">📊 Complaint Status Overview</h6>
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm chart-card">
+        <div class="card-body p-2 p-md-3">
+          <h6 class="section-title fw-semibold mb-2 mb-md-3">Complaint status overview</h6>
 
-        <div class="chart-box small-chart">
-          <canvas id="statusChart"></canvas>
+          <div class="chart-box chart-box--status">
+            <canvas id="statusChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- MONTHLY CHART -->
-    <div class="col-md-6">
-      <div class="card shadow-sm p-3 chart-card">
-        <h6 class="fw-semibold mb-3">📅 Monthly Complaints</h6>
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm chart-card">
+        <div class="card-body p-2 p-md-3">
+          <h6 class="section-title fw-semibold mb-2 mb-md-3">Monthly complaints</h6>
 
-        <div class="chart-box small-chart">
-          <canvas id="monthChart"></canvas>
+          <div class="chart-box chart-box--month">
+            <canvas id="monthChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- 🔥 RECENT COMPLAINTS -->
-  <div class="card shadow-sm p-3">
-    <h6 class="fw-semibold mb-3">📋 Recent Complaints</h6>
+  <!-- Recent complaints -->
+  <div class="card shadow-sm recent-card">
+    <div class="card-body p-2 p-md-3">
+      <h6 class="section-title fw-semibold mb-2 mb-md-3">Recent complaints</h6>
 
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 recent-table">
 
-        <thead class="table-light">
-          <tr>
-            <th>User</th>
-            <th>Complaint</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+          <thead class="table-light">
+            <tr>
+              <th scope="col" class="recent-th-user">User</th>
+              <th scope="col" class="recent-th-text">Complaint</th>
+              <th scope="col" class="recent-th-status text-nowrap">Status</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr *ngFor="let c of complaints | slice:0:5">
-            <td>{{c.user.name}}</td>
-            <td>{{c.complaint_text}}</td>
-            <td>
-              <span class="badge"
-                [ngClass]="{
-                  'bg-warning text-dark': c.status=='Pending',
-                  'bg-primary': c.status=='In Progress',
-                  'bg-success': c.status=='Resolved'
-                }">
-                {{c.status}}
-              </span>
-            </td>
-          </tr>
-        </tbody>
+          <tbody>
+            <tr *ngFor="let c of complaints | slice:0:5">
+              <td class="recent-td-user">{{ c.user.name }}</td>
+              <td class="recent-td-text">
+                <span class="complaint-preview" [title]="c.complaint_text">{{ c.complaint_text }}</span>
+              </td>
+              <td class="recent-td-status">
+                <span
+                  class="badge text-wrap text-start"
+                  [ngClass]="{
+                    'bg-warning text-dark': c.status == 'Pending',
+                    'bg-primary': c.status == 'In Progress',
+                    'bg-success': c.status == 'Resolved'
+                  }">
+                  {{ c.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
 
-      </table>
+        </table>
+      </div>
     </div>
   </div>
 
