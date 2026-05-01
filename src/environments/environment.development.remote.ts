@@ -1,11 +1,11 @@
 import type { EnvironmentConfig } from './environment.model';
 import { RAILWAY_BACKEND_ORIGIN } from './railway-backend-origin';
 
-/** Production defaults — must match Laravel `.env` (`PUSHER_APP_KEY`, Reverb / broadcasting). */
+/** Same API/Reverb targets as production; use with `ng serve --configuration development-remote`. */
 const origin = RAILWAY_BACKEND_ORIGIN;
 
 export const environment = {
-  production: true,
+  production: false,
   apiUrl: `${origin}/api`,
   baseUrl: origin,
   broadcasting: {

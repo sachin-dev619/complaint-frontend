@@ -77,6 +77,20 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "development-remote": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.remote.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -89,6 +103,9 @@
             },
             "development": {
               "browserTarget": "complaint-frontend:build:development"
+            },
+            "development-remote": {
+              "browserTarget": "complaint-frontend:build:development-remote"
             }
           },
           "defaultConfiguration": "development"
