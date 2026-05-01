@@ -1,10 +1,18 @@
-<div class="header d-flex justify-content-between align-items-center p-3 shadow-sm bg-white">
+<div class="header d-flex justify-content-between align-items-center shadow-sm bg-white">
 
-  <!-- Title -->
-  <h5 class="mb-0 fw-bold text-dark">Admin Panel</h5>
+  <div class="header-start d-flex align-items-center min-w-0 flex-grow-1">
+    <button
+      type="button"
+      class="btn btn-link text-dark menu-toggle d-lg-none p-2 me-1 border-0 lh-1"
+      (click)="toggleSidebar.emit()"
+      aria-label="Open navigation menu">
+      <i class="bi bi-list fs-3"></i>
+    </button>
+    <h5 class="header-title mb-0 fw-bold text-dark text-truncate">Admin Panel</h5>
+  </div>
 
   <!-- Right Section -->
-  <div class="d-flex align-items-center gap-4 position-relative">
+  <div class="header-actions d-flex align-items-center position-relative flex-shrink-0">
 
     <!-- 🔔 Notification Bell -->
     <div class="notification-icon" (click)="toggleNotifications()">
@@ -66,10 +74,12 @@
 
     </div>
 
-    <!-- Logout -->
-    <button class="btn btn-sm btn-danger"
-            (click)="logout()">
-      Logout
+    <button
+      type="button"
+      class="btn btn-sm btn-danger logout-btn"
+      (click)="logout()">
+      <i class="bi bi-box-arrow-right d-sm-none"></i>
+      <span class="d-none d-sm-inline">Logout</span>
     </button>
 
   </div>

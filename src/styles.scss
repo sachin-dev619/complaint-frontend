@@ -37,3 +37,8 @@
   font-weight: 600;
   margin-bottom: 15px;
 }
+
+body.admin-sidebar-open {
+  overflow: hidden;
+  touch-action: none;
+}

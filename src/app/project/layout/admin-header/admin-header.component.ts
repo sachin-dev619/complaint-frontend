@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, EventEmitter, OnInit, NgZone, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { EchoService } from 'src/app/_services/echo.service';
 import { ApiService } from 'src/app/_services/api.service';
@@ -9,6 +9,8 @@ import { ApiService } from 'src/app/_services/api.service';
   styleUrls: ['./admin-header.component.scss']
 })
 export class AdminHeaderComponent implements OnInit {
+
+  @Output() toggleSidebar = new EventEmitter<void>();
 
   notifications: any[] = [];
   unreadCount: number = 0;

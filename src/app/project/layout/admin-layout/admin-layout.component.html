@@ -1,15 +1,23 @@
-<div class="d-flex">
+<div class="admin-layout">
 
-  <app-admin-sidebar></app-admin-sidebar>
+  <div
+    class="sidebar-backdrop"
+    *ngIf="sidebarOpen"
+    (click)="closeSidebar()"
+    aria-hidden="true">
+  </div>
 
-  <div class="w-100">
+  <app-admin-sidebar
+    [mobileOpen]="sidebarOpen"
+    (closeMobileSidebar)="closeSidebar()">
+  </app-admin-sidebar>
 
-    <app-admin-header></app-admin-header>
+  <div class="admin-main">
+    <app-admin-header (toggleSidebar)="toggleSidebar()"></app-admin-header>
 
-    <div class="p-3">
+    <div class="admin-content">
       <router-outlet></router-outlet>
     </div>
-
   </div>
 
 </div>
