@@ -1,25 +1,39 @@
+/* Desktop: stretch with layout row so dark bar never shows a gap below */
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   flex: 0 0 250px;
+  align-self: stretch;
+  min-height: 0;
+  background: linear-gradient(180deg, #0f172a 0%, #111827 40%, #0c1222 100%);
 
   @media (max-width: 991.98px) {
     flex: 0 0 0;
     width: 0;
     min-width: 0;
     overflow: visible;
+    background: transparent;
   }
 }
 
 .sidebar {
+  flex: 1 1 auto;
   width: 250px;
-  min-height: 100vh;
-  background: #111827;
+  min-height: 0;
+  background: transparent;
   color: #fff;
-  padding: 15px;
+  padding: 1rem 0.875rem 1.25rem;
   transition: transform 0.28s ease, box-shadow 0.28s ease;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+}
+
+@media (min-width: 992px) {
+  .sidebar {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 @media (max-width: 991.98px) {
@@ -44,13 +58,37 @@
   }
 }
 
-/* Logo */
-.logo {
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: bold;
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.65rem 0.5rem;
   flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-brand__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.sidebar-brand__text {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f8fafc;
 }
 
 /* Main Menu */
@@ -62,25 +100,29 @@
 }
 
 .menu li {
-  padding: 10px 12px;
+  padding: 0.6rem 0.75rem;
   cursor: pointer;
   border-radius: 8px;
-  margin-bottom: 6px;
-  transition: background 0.2s ease;
+  margin-bottom: 4px;
+  transition: background 0.18s ease, color 0.18s ease;
   display: flex;
   align-items: center;
   gap: 10px;
+  color: #e2e8f0;
+  font-size: 0.9375rem;
 }
 
 /* Hover */
 .menu li:hover {
-  background: #1f2937;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
 /* Active link */
 .menu li.active {
-  background: #2563eb;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.35), rgba(37, 99, 235, 0.2));
   color: #fff;
+  box-shadow: inset 3px 0 0 #3b82f6;
 }
 
 /* Icons */
@@ -123,7 +165,12 @@
 
 /* Submenu hover */
 .submenu li:hover {
-  background: #374151;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.submenu li.active {
+  color: #93c5fd;
+  font-weight: 600;
 }
 
 /* Arrow animation */

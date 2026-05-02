@@ -29,9 +29,9 @@
 }
 
 .card-gradient {
-  border-radius: 15px;
-  background: linear-gradient(135deg, #4e73df, #224abe);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 45%, #1d4ed8 100%);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
   border: none;
 }
 
@@ -68,12 +68,14 @@
 
 /* Charts */
 .chart-card {
-  border-radius: 15px;
-  transition: box-shadow 0.25s ease;
+  border-radius: var(--admin-radius, 12px);
+  border: 1px solid var(--admin-border, rgba(15, 23, 42, 0.08));
+  transition: box-shadow 0.25s ease, border-color 0.2s ease;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.12) !important;
+      border-color: rgba(37, 99, 235, 0.2);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08) !important;
     }
   }
 }
@@ -122,7 +124,8 @@
 
 /* Recent complaints */
 .recent-card {
-  border-radius: 15px;
+  border-radius: var(--admin-radius, 12px);
+  border: 1px solid var(--admin-border, rgba(15, 23, 42, 0.08));
 }
 
 .recent-table {
