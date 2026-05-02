@@ -1,6 +1,23 @@
-<app-student-header></app-student-header>
-<app-student-sidebar></app-student-sidebar>
+<div class="student-layout">
 
-<div class="main-content">
-  <router-outlet></router-outlet>
+  <div
+    class="sidebar-backdrop"
+    *ngIf="sidebarOpen"
+    (click)="closeSidebar()"
+    aria-hidden="true">
+  </div>
+
+  <app-student-sidebar
+    [mobileOpen]="sidebarOpen"
+    (closeMobileSidebar)="closeSidebar()">
+  </app-student-sidebar>
+
+  <div class="student-main">
+    <app-student-header (toggleSidebar)="toggleSidebar()"></app-student-header>
+
+    <div class="student-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
 </div>

@@ -1,3 +1,50 @@
-.navbar {
-  height: 60px;
+:host {
+  display: block;
+  flex-shrink: 0;
+}
+
+.student-header-bar {
+  position: relative;
+  z-index: 1030;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(1.2) blur(12px);
+  -webkit-backdrop-filter: saturate(1.2) blur(12px);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+
+  @media (min-width: 576px) {
+    padding: 0.65rem 1rem;
+  }
+
+  @media (min-width: 992px) {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+.header-start {
+  gap: 0.25rem;
+}
+
+.header-title {
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.header-tag {
+  font-weight: 500;
+}
+
+.menu-toggle {
+  text-decoration: none;
+  border-radius: 8px;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+  }
+
+  &:hover {
+    background: rgba(15, 23, 42, 0.06);
+  }
 }

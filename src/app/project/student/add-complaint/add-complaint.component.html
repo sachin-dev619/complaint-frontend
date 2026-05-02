@@ -1,7 +1,9 @@
-<div class="container mt-4">
-  <div class="card shadow p-4">
+<div class="app-page container-fluid px-2 px-sm-3 py-2 py-md-3">
+  <div class="card shadow app-panel-card">
 
-    <h4 class="text-center mb-4">📝 Register Complaint</h4>
+    <div class="card-body">
+
+    <h2 class="h5 fw-bold text-center text-md-start mb-4 section-title">Register complaint</h2>
 
     <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
 
@@ -25,7 +27,7 @@
         <div class="col-md-6 mb-3">
           <label>Category</label>
           <select formControlName="category_id"
-                  class="form-control"
+                  class="form-select"
                   [ngClass]="{'error': isInvalid('category_id')}"
                   (change)="onCategoryChange()">
 
@@ -44,7 +46,7 @@
         <div class="col-md-6 mb-3">
           <label>Subcategory</label>
           <select formControlName="subcategory_id"
-                  class="form-control"
+                  class="form-select"
                   [ngClass]="{'error': isInvalid('subcategory_id')}"
                   [disabled]="!filteredSubcategories.length || loadingSub">
 
@@ -65,13 +67,13 @@
         <div class="col-md-6 mb-3">
           <label>Priority</label>
           <select formControlName="priority"
-                  class="form-control"
+                  class="form-select"
                   [ngClass]="{'error': isInvalid('priority')}">
 
             <option value="">Select Priority</option>
-            <option value="Low">🟢 Low</option>
-            <option value="Medium">🟡 Medium</option>
-            <option value="High">🔴 High</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
           </select>
 
           <small *ngIf="isInvalid('priority')">
@@ -107,18 +109,20 @@
 
       </div>
 
-      <!-- Buttons -->
-      <div class="text-center">
-        <button type="button" class="btn btn-secondary me-2" (click)="resetForm()">
+      <div class="d-flex flex-column flex-sm-row gap-2 justify-content-sm-end pt-2">
+        <button type="button" class="btn btn-outline-secondary order-2 order-sm-1" (click)="resetForm()">
           Reset
         </button>
 
-        <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
-          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm"></span>
-          {{ isSubmitting ? 'Submitting...' : 'Submit Complaint' }}
+        <button type="submit" class="btn btn-primary order-1 order-sm-2" [disabled]="isSubmitting">
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status"></span>
+          {{ isSubmitting ? 'Submitting…' : 'Submit complaint' }}
         </button>
       </div>
 
     </form>
+
+    </div>
+
   </div>
 </div>

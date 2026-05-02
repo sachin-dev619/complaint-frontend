@@ -1,5 +1,7 @@
-/* Admin / app theme tokens */
+/* App-wide theme tokens (admin + student + auth) */
 :root {
+  --app-accent: #2563eb;
+  --app-accent-soft: rgba(37, 99, 235, 0.1);
   --admin-accent: #2563eb;
   --admin-accent-hover: #1d4ed8;
   --admin-accent-soft: rgba(37, 99, 235, 0.1);
@@ -12,33 +14,7 @@
   --admin-radius-sm: 8px;
 }
 
-.sidebar {
-  width: 230px;
-  height: 100vh;
-  background: #0f172a;
-  color: #fff;
-  padding: 20px;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar ul li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.sidebar ul li.active {
-  background: #2563eb;
-}
-
-.header {
-  height: 60px;
-  background: #fff;
-  padding: 10px;
-}
+/* Layout sidebars use component-scoped styles; avoid global .sidebar rules here */
 
 .page-card {
   background: var(--admin-surface);
@@ -49,14 +25,17 @@
   max-width: 100%;
 }
 
-/* Shared shell for admin routed views */
-.admin-page {
+/* Shared page shells */
+.admin-page,
+.app-page {
   max-width: 100%;
 }
 
-/* Primary content cards across admin routes */
+/* Primary content cards (admin + student) */
 .admin-panel-card.card,
-.admin-page .card.shadow.admin-panel-card {
+.app-panel-card.card,
+.admin-page .card.shadow.admin-panel-card,
+.app-page .card.shadow.app-panel-card {
   border-radius: var(--admin-radius);
   border: 1px solid var(--admin-border);
   box-shadow: var(--admin-shadow);
@@ -65,7 +44,9 @@
 }
 
 .admin-panel-card .card-body,
-.admin-panel-card.card > .card-body {
+.admin-panel-card.card > .card-body,
+.app-panel-card .card-body,
+.app-panel-card.card > .card-body {
   padding: 0.75rem;
 
   @media (min-width: 576px) {
@@ -77,32 +58,51 @@
   }
 }
 
-/* Page section titles inside admin cards */
 .admin-page .section-title,
 .admin-page .card-body > h4,
-.admin-page .card-body > h5:first-child {
+.admin-page .card-body > h5:first-child,
+.app-page .section-title,
+.app-page .card-body > h4,
+.app-page .card-body > h5:first-child {
   color: #0f172a;
   letter-spacing: -0.02em;
 }
 
-.admin-page .table-responsive.rounded.border {
+.admin-page .table-responsive.rounded.border,
+.app-page .table-responsive.rounded.border {
   border-color: var(--admin-border) !important;
   border-radius: var(--admin-radius-sm) !important;
 }
 
-.admin-page .pagination .page-link {
+.admin-page .pagination .page-link,
+.app-page .pagination .page-link {
   border-radius: 6px;
   margin: 0 1px;
 }
 
 .admin-page .form-control:focus,
-.admin-page .form-select:focus {
+.admin-page .form-select:focus,
+.app-page .form-control:focus,
+.app-page .form-select:focus {
   border-color: var(--admin-accent);
   box-shadow: 0 0 0 3px var(--admin-accent-soft);
 }
 
+/* Auth screens (login, forgot password, set password) */
+.auth-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body.admin-sidebar-open,
+body.student-sidebar-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
 /* Pagination: stack on small screens */
-.admin-pagination-bar {
+.admin-pagination-bar,
+.app-pagination-bar {
   gap: 0.75rem;
 
   @media (max-width: 767.98px) {
@@ -116,7 +116,8 @@
   }
 }
 
-.admin-pagination-bar .pagination {
+.admin-pagination-bar .pagination,
+.app-pagination-bar .pagination {
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -126,7 +127,9 @@
   margin-bottom: 15px;
 }
 
-body.admin-sidebar-open {
-  overflow: hidden;
-  touch-action: none;
+/* Empty-state hero icons (admin stub pages, etc.) */
+.empty-state-icon {
+  font-size: 2.75rem;
+  color: #94a3b8;
+  line-height: 1;
 }

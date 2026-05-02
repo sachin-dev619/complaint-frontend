@@ -1,9 +1,14 @@
-<div class="container mt-4">
-  <div class="card shadow p-4">
+<div class="app-page container-fluid px-2 px-sm-3 py-2 py-md-3">
+  <div class="card shadow app-panel-card">
 
-    <h4 class="text-center mb-4">✏️ Edit Complaint</h4>
+    <div class="card-body">
 
-    <div *ngIf="loading" class="text-center">Loading...</div>
+    <h2 class="h5 fw-bold text-center text-md-start mb-4 section-title">Edit complaint</h2>
+
+    <div *ngIf="loading" class="text-center text-muted py-4">
+      <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+      <span class="ms-2">Loading…</span>
+    </div>
 
     <form *ngIf="!loading" [formGroup]="editForm" (ngSubmit)="updateComplaint()">
 
@@ -26,7 +31,7 @@
       <!-- Category -->
       <div class="mb-3">
         <label>Category</label>
-        <select class="form-control"
+        <select class="form-select"
                 formControlName="category_id"
                 [ngClass]="{'is-invalid': isInvalid('category_id')}"
                 (change)="onCategoryChange()">
@@ -47,7 +52,7 @@
       <!-- Subcategory -->
       <div class="mb-3">
         <label>Subcategory</label>
-        <select class="form-control"
+        <select class="form-select"
                 formControlName="subcategory_id"
                 [ngClass]="{'is-invalid': isInvalid('subcategory_id')}">
 
@@ -67,7 +72,7 @@
       <!-- Priority -->
       <div class="mb-3">
         <label>Priority</label>
-        <select class="form-control"
+        <select class="form-select"
                 formControlName="priority"
                 [ngClass]="{'is-invalid': isInvalid('priority')}">
 
@@ -117,13 +122,14 @@
            class="img-fluid mb-3"
            style="max-height:150px;">
 
-      <!-- Buttons -->
-      <div class="text-end">
-        <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
-        <button type="submit" class="btn btn-success">Update</button>
+      <div class="d-flex flex-column flex-sm-row gap-2 justify-content-sm-end pt-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
       </div>
 
     </form>
+
+    </div>
 
   </div>
 </div>

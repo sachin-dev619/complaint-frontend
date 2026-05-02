@@ -1,42 +1,43 @@
-<div class="d-flex">
+<div class="legacy-shell d-flex min-vh-100">
 
-  <!-- Sidebar -->
-  <div class="sidebar p-3">
+  <aside class="legacy-sidebar">
 
-    <h4 class="text-white text-center mb-4">⚡ CMS</h4>
+    <div class="legacy-brand">
+      <span class="legacy-brand__icon"><i class="bi bi-lightning-charge-fill"></i></span>
+      <span class="legacy-brand__text">Portal</span>
+    </div>
 
-    <ul class="nav flex-column">
+    <nav class="legacy-nav nav flex-column">
 
-      <li>
-        <a routerLink="/student/dashboard" class="nav-link">
-          <i class="bi bi-speedometer2"></i> Dashboard
-        </a>
-      </li>
+      <a routerLink="/student/dashboard" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
 
-      <li>
-        <a routerLink="/complaint/add" class="nav-link">
-          <i class="bi bi-plus-circle"></i> Add Complaint
-        </a>
-      </li>
+      <a routerLink="/student/add-complaint" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-plus-circle"></i>
+        <span>Add complaint</span>
+      </a>
 
-      <li>
-        <a routerLink="/complaint/list" class="nav-link">
-          <i class="bi bi-file-text"></i> My Complaints
-        </a>
-      </li>
+      <a routerLink="/student/my-complaints" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-collection"></i>
+        <span>My complaints</span>
+      </a>
 
-      <li class="mt-4">
-        <button class="btn btn-danger w-100" (click)="logout()">
-          <i class="bi bi-box-arrow-right"></i> Logout
-        </button>
-      </li>
+      <a routerLink="/complaint/add" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-send"></i>
+        <span>Quick add</span>
+      </a>
 
-    </ul>
+      <button type="button" class="btn btn-outline-light mt-4 w-100" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i> Logout
+      </button>
 
-  </div>
+    </nav>
 
-  <!-- Main Content -->
-  <div class="content p-4 w-100">
+  </aside>
+
+  <div class="legacy-content flex-grow-1">
     <router-outlet></router-outlet>
   </div>
 

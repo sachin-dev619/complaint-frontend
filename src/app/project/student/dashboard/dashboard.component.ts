@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { AuthService } from 'src/app/_services/auth.service';
+import { Component, OnInit } from '@angular/core';
 import { ComplaintService } from 'src/app/_services/complaint.service';
 
 @Component({
@@ -7,7 +6,7 @@ import { ComplaintService } from 'src/app/_services/complaint.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
    // 🔹 Cards Data
   total = 0;
   pending = 0;

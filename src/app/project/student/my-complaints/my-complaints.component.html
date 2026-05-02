@@ -1,102 +1,94 @@
-<div class="container mt-4">
+<div class="app-page container-fluid px-2 px-sm-3 py-2 py-md-3">
 
-  <div class="card shadow p-3">
+  <div class="card shadow app-panel-card">
+    <div class="card-body">
 
-    <h4 class="text-center mb-3">📋 My Complaints</h4>
+      <h2 class="h5 fw-bold text-center text-md-start mb-3 section-title">My complaints</h2>
 
-    <div class="table-responsive">
-
-      <!-- Loading -->
-      <div *ngIf="loading" class="text-center my-3">
-        Loading...
+      <div *ngIf="loading" class="text-center text-muted py-4">
+        <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+        <span class="ms-2">Loading…</span>
       </div>
 
-      <table class="table table-bordered table-hover text-center" *ngIf="!loading">
+      <div class="table-responsive rounded border" *ngIf="!loading">
 
-        <thead class="table-dark">
-          <tr>
-            <th>#</th>
-            <th>Complaint No</th>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Status</th>
-            <th>Remark</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+        <table class="table table-sm table-bordered table-hover align-middle text-center mb-0">
 
-        <tbody>
-          <tr *ngFor="let c of complaints; let i = index">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Complaint No</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Remark</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-            <td>{{ i + 1 }}</td>
-            <td>{{ c.complaint_no }}</td>
-            <td>{{ c.title }}</td>
-            <td>{{ c.category?.name }}</td>
+          <tbody>
+            <tr *ngFor="let c of complaints; let i = index">
 
-            <!-- STATUS -->
-            <td>
-              <span class="badge"
-                [ngClass]="{
-                  'bg-warning text-dark': c.status=='Pending',
-                  'bg-info text-white': c.status=='In Progress',
-                  'bg-success': c.status=='Resolved'
-                }">
-                {{ c.status }}
-              </span>
-            </td>
+              <td>{{ i + 1 }}</td>
+              <td class="text-nowrap">{{ c.complaint_no }}</td>
+              <td class="text-start">{{ c.title }}</td>
+              <td>{{ c.category?.name }}</td>
 
-            <!-- REMARK -->
-            <td>
-              <span [ngClass]="{
-                'text-danger': !c.admin_remark
-              }">
-                {{ c.admin_remark || 'No remark' }}
-              </span>
-            </td>
+              <td>
+                <span class="badge"
+                  [ngClass]="{
+                    'bg-warning text-dark': c.status=='Pending',
+                    'bg-info text-dark': c.status=='In Progress',
+                    'bg-success': c.status=='Resolved'
+                  }">
+                  {{ c.status }}
+                </span>
+              </td>
 
-            <td>{{ c.created_at | date:'short' }}</td>
+              <td class="text-start small">
+                <span [ngClass]="{ 'text-muted': !c.admin_remark }">
+                  {{ c.admin_remark || 'No remark' }}
+                </span>
+              </td>
 
-            <!-- ACTIONS -->
-            <td>
+              <td class="text-nowrap small">{{ c.created_at | date:'short' }}</td>
 
-              <!-- VIEW -->
-              <button class="btn btn-sm btn-primary me-1"
-                      (click)="viewComplaint(c.id)">
-                👁 View
-              </button>
+              <td class="text-nowrap">
+                <button type="button" class="btn btn-sm btn-primary me-1 mb-1"
+                        (click)="viewComplaint(c.id)">
+                  <i class="bi bi-eye"></i><span class="d-none d-sm-inline"> View</span>
+                </button>
 
-              <!-- EDIT (ONLY PENDING) -->
-              <button class="btn btn-sm btn-warning"
-                      *ngIf="c.status === 'Pending'"
-                      (click)="editComplaint(c.id)">
-                ✏️ Edit
-              </button>
+                <button type="button" class="btn btn-sm btn-warning me-1 mb-1"
+                        *ngIf="c.status === 'Pending'"
+                        (click)="editComplaint(c.id)">
+                  <i class="bi bi-pencil"></i><span class="d-none d-sm-inline"> Edit</span>
+                </button>
 
-              <!-- LOCKED -->
-              <button class="btn btn-sm btn-secondary"
-                      *ngIf="c.status !== 'Pending'"
-                      disabled>
-                🔒 Locked
-              </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary mb-1"
+                        *ngIf="c.status !== 'Pending'"
+                        disabled
+                        title="Locked after review">
+                  Locked
+                </button>
+              </td>
 
-            </td>
+            </tr>
 
-          </tr>
+            <tr *ngIf="complaints.length === 0">
+              <td colspan="8" class="text-center text-muted py-4">
+                No complaints found
+              </td>
+            </tr>
 
-          <!-- No Data -->
-          <tr *ngIf="complaints.length === 0">
-            <td colspan="8" class="text-center text-muted">
-              No complaints found
-            </td>
-          </tr>
+          </tbody>
 
-        </tbody>
+        </table>
 
-      </table>
+      </div>
 
     </div>
-
   </div>
 
 </div>

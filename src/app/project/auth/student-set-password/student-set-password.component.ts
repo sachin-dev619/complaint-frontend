@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 @Component({
   selector: 'app-student-set-password',
   templateUrl: './student-set-password.component.html',
-  styleUrls: ['./student-set-password.component.scss']
+  styleUrls: ['../shared-auth-layout.scss']
 })
 export class StudentSetPasswordComponent {
  data = {

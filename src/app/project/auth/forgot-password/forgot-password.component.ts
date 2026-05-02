@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrls: ['../shared-auth-layout.scss']
 })
 export class ForgotPasswordComponent {
    email: string = '';

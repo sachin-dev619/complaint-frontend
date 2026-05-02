@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-student-header',
@@ -6,11 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./student-header.component.scss']
 })
 export class StudentHeaderComponent {
-    toggleSidebar() {
-    document.body.classList.toggle('sidebar-open');
-  }
+  @Output() toggleSidebar = new EventEmitter<void>();
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('user');

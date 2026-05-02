@@ -26,6 +26,13 @@ const routes: Routes = [
     data: { roles: ['admin'] } // ✅
   },
 
+  {
+    path: 'complaint',
+    loadChildren: () => import('./project/complaint/complaint.module').then(m => m.ComplaintModule),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['student'] }
+  },
+
 ];
 
 @NgModule({

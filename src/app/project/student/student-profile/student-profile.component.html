@@ -1,54 +1,57 @@
-<div class="container mt-4">
+<div class="app-page container-fluid px-2 px-sm-3 py-2 py-md-3">
 
-  <!-- Loading -->
-  <div *ngIf="loading" class="text-center">
-    <div class="spinner-border text-primary"></div>
-    <p>Loading profile...</p>
+  <div *ngIf="loading" class="text-center text-muted py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 mb-0">Loading profile…</p>
   </div>
 
-  <!-- Error -->
-  <div *ngIf="errorMsg" class="alert alert-danger text-center">
-    {{ errorMsg }}
-  </div>
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
 
-  <!-- Profile Card -->
-  <div class="card shadow p-4 text-center profile-card" *ngIf="user">
+  <div class="card shadow app-panel-card mx-auto profile-shell" *ngIf="user">
 
-    <!-- Profile Image -->
-    <img 
-      src="https://via.placeholder.com/100"
-      class="profile-img mb-3"
-      alt="Profile Image"
-    >
+    <div class="card-body text-center text-md-start">
 
-    <!-- Name -->
-    <h4>{{ user?.name || 'N/A' }}</h4>
+      <div class="profile-hero mb-4">
+        <div class="profile-avatar mx-auto mx-md-0">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <div>
+          <h2 class="h4 fw-bold mb-1" style="color: #0f172a;">{{ user?.name || 'N/A' }}</h2>
+          <p class="text-muted mb-0">{{ user?.email || 'N/A' }}</p>
+        </div>
+      </div>
 
-    <!-- Email -->
-    <p class="text-muted">{{ user?.email || 'N/A' }}</p>
+      <hr class="my-4 opacity-25">
 
-    <hr>
+      <ul class="list-unstyled profile-details mb-0">
+        <li class="d-flex align-items-start gap-2 mb-3">
+          <i class="bi bi-telephone text-primary mt-1"></i>
+          <div>
+            <div class="small text-muted">Phone</div>
+            <div>{{ user?.phone || 'Not available' }}</div>
+          </div>
+        </li>
+        <li class="d-flex align-items-start gap-2 mb-3" *ngIf="user?.class">
+          <i class="bi bi-book text-primary mt-1"></i>
+          <div>
+            <div class="small text-muted">Class</div>
+            <div>{{ user?.class }}</div>
+          </div>
+        </li>
+        <li class="d-flex align-items-start gap-2" *ngIf="user?.division">
+          <i class="bi bi-diagram-3 text-primary mt-1"></i>
+          <div>
+            <div class="small text-muted">Division</div>
+            <div>{{ user?.division }}</div>
+          </div>
+        </li>
+      </ul>
 
-    <!-- Phone -->
-    <p>
-      <strong>📱 Phone:</strong>
-      {{ user?.phone || 'Not Available' }}
-    </p>
+      <button type="button" class="btn btn-primary w-100 mt-4" (click)="editProfile()">
+        <i class="bi bi-pencil me-1"></i> Edit profile
+      </button>
 
-    <!-- Optional Fields -->
-    <p *ngIf="user?.class">
-      <strong>🎓 Class:</strong> {{ user?.class }}
-    </p>
-
-    <p *ngIf="user?.division">
-      <strong>🏫 Division:</strong> {{ user?.division }}
-    </p>
-
-    <!-- Edit Button -->
-    <button class="btn btn-primary mt-3 w-100"
-            (click)="editProfile()">
-      ✏ Edit Profile
-    </button>
+    </div>
 
   </div>
 
