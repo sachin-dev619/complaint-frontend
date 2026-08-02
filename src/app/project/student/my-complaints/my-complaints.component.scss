@@ -1,18 +1,67 @@
-.card {
-  border-radius: 12px;
-  background: #fff;
+.complaints-table {
+  min-width: 780px;
+  font-size: 0.875rem;
+
+  thead th {
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    transition: background 0.15s ease;
+  }
 }
 
-.table {
-  min-width: 800px;
+.title-cell {
+  max-width: 12rem;
+  font-weight: 600;
+  color: #0f172a;
 }
 
-.badge {
-  padding: 6px 10px;
-  font-size: 12px;
+.remark-cell {
+  max-width: 10rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
   border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-button {
-  border-radius: 6px;
+.status-badge--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge--progress {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.status-badge--resolved {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.locked-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.empty-row {
+  background: #fafbfc;
+}
+
+.empty-row__icon {
+  font-size: 2rem;
+  color: #94a3b8;
 }

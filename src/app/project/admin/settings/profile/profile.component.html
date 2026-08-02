@@ -1,45 +1,47 @@
 <div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4">
 
-  <div class="page-card">
-
-    <h4 class="mb-3 text-center text-md-start fs-5">Profile</h4>
-
-    <form (ngSubmit)="updateProfile()">
-
-      <label class="form-label">Name</label>
-      <input
-        class="form-control mb-3"
-        [(ngModel)]="profile.name"
-        name="name"
-      >
-
-      <label class="form-label">Email</label>
-      <input
-        class="form-control mb-3"
-        [(ngModel)]="profile.email"
-        name="email"
-      >
-
-      <label class="form-label">Role</label>
-      <input
-        class="form-control mb-3"
-        [value]="profile.role"
-        readonly
-      >
-
-      <label class="form-label">Account Created</label>
-      <input
-        class="form-control mb-3"
-        [value]="profile.created_at | date:'medium'"
-        readonly
-      >
-
-      <button type="submit" class="btn btn-primary w-100 py-2">
-        Update Profile
-      </button>
-
-    </form>
-
+  <div class="page-hero mb-3 mb-md-4">
+    <h1 class="page-hero__title">Profile</h1>
+    <p class="page-hero__subtitle">Update your admin account details</p>
   </div>
 
+  <div class="card shadow admin-panel-card settings-card">
+    <div class="card-body">
+
+      <div class="profile-banner mb-4">
+        <div class="profile-banner__avatar">{{ (profile.name || 'A').charAt(0) }}</div>
+        <div>
+          <div class="profile-banner__name">{{ profile.name || 'Admin' }}</div>
+          <div class="profile-banner__role">{{ profile.role || 'admin' }}</div>
+        </div>
+      </div>
+
+      <form (ngSubmit)="updateProfile()">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input class="form-control" [(ngModel)]="profile.name" name="name">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input class="form-control" [(ngModel)]="profile.email" name="email">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Role</label>
+          <input class="form-control" [value]="profile.role" readonly>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Account created</label>
+          <input class="form-control" [value]="profile.created_at | date:'medium'" readonly>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2">
+          <i class="bi bi-check2 me-1"></i> Update profile
+        </button>
+      </form>
+
+    </div>
+  </div>
 </div>

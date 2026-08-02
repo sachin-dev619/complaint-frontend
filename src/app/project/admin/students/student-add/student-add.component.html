@@ -1,174 +1,121 @@
 <div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4">
 
-  <div class="card shadow admin-panel-card">
+  <div class="page-hero mb-3 mb-md-4">
+    <h1 class="page-hero__title">Add student</h1>
+    <p class="page-hero__subtitle">Create a new student record</p>
+  </div>
 
+  <div class="card shadow admin-panel-card form-narrow">
     <div class="card-body">
 
-      <h4 class="mb-3 text-center fs-5">Add student</h4>
-
       <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-
         <div class="row g-3">
 
           <div class="col-12 col-md-6">
-            <label>First Name</label>
-            <input type="text"
-                   class="form-control"
-                   formControlName="first_name"
+            <label>First name</label>
+            <input type="text" class="form-control" formControlName="first_name"
                    (input)="clearBackendError('first_name')"
                    [ngClass]="{'is-invalid': (submitted && f['first_name'].errors) || validationErrors?.first_name}">
-
             <div class="invalid-feedback" *ngIf="submitted && f['first_name'].errors">
               <div *ngIf="f['first_name'].errors['required']">First name is required</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.first_name">
-              {{ validationErrors.first_name[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.first_name">{{ validationErrors.first_name[0] }}</div>
           </div>
 
           <div class="col-12 col-md-6">
-            <label>Last Name</label>
-            <input type="text"
-                   class="form-control"
-                   formControlName="last_name"
+            <label>Last name</label>
+            <input type="text" class="form-control" formControlName="last_name"
                    (input)="clearBackendError('last_name')"
                    [ngClass]="{'is-invalid': (submitted && f['last_name'].errors) || validationErrors?.last_name}">
-
             <div class="invalid-feedback" *ngIf="submitted && f['last_name'].errors">
               <div *ngIf="f['last_name'].errors['required']">Last name is required</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.last_name">
-              {{ validationErrors.last_name[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.last_name">{{ validationErrors.last_name[0] }}</div>
           </div>
 
           <div class="col-12 col-md-6">
             <label>Email</label>
-            <input type="email"
-                   class="form-control"
-                   formControlName="email"
+            <input type="email" class="form-control" formControlName="email"
                    (input)="clearBackendError('email')"
                    [ngClass]="{'is-invalid': (submitted && f['email'].errors) || validationErrors?.email}">
-
             <div class="invalid-feedback" *ngIf="submitted && f['email'].errors">
               <div *ngIf="f['email'].errors['required']">Email is required</div>
               <div *ngIf="f['email'].errors['email']">Enter valid email</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.email">
-              {{ validationErrors.email[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.email">{{ validationErrors.email[0] }}</div>
           </div>
 
           <div class="col-12 col-md-6">
-            <label>Roll No</label>
-            <input type="text"
-                   class="form-control"
-                   formControlName="roll_no"
+            <label>Roll no</label>
+            <input type="text" class="form-control" formControlName="roll_no"
                    (input)="clearBackendError('roll_no')"
                    [ngClass]="{'is-invalid': (submitted && f['roll_no'].errors) || validationErrors?.roll_no}">
-
             <div class="invalid-feedback" *ngIf="submitted && f['roll_no'].errors">
               <div *ngIf="f['roll_no'].errors['required']">Roll number is required</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.roll_no">
-              {{ validationErrors.roll_no[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.roll_no">{{ validationErrors.roll_no[0] }}</div>
           </div>
 
           <div class="col-12 col-md-6">
-            <label>Class</label>
-            <input type="number"
-                   class="form-control"
-                   formControlName="class_models_id"
+            <label>Class ID</label>
+            <input type="number" class="form-control" formControlName="class_models_id"
                    (input)="clearBackendError('class_models_id')"
                    [ngClass]="{'is-invalid': (submitted && f['class_models_id'].errors) || validationErrors?.class_models_id}">
-
             <div class="invalid-feedback" *ngIf="submitted && f['class_models_id'].errors">
               <div *ngIf="f['class_models_id'].errors['required']">Class is required</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.class_models_id">
-              {{ validationErrors.class_models_id[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.class_models_id">{{ validationErrors.class_models_id[0] }}</div>
           </div>
 
           <div class="col-12 col-md-6">
-            <label>Division</label>
-            <input type="number"
-                   class="form-control"
-                   formControlName="division_id"
+            <label>Division ID</label>
+            <input type="number" class="form-control" formControlName="division_id"
                    (input)="clearBackendError('division_id')"
                    [ngClass]="{'is-invalid': (submitted && f['division_id'].errors) || validationErrors?.division_id}">
-
             <div class="invalid-feedback" *ngIf="submitted && f['division_id'].errors">
               <div *ngIf="f['division_id'].errors['required']">Division is required</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.division_id">
-              {{ validationErrors.division_id[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.division_id">{{ validationErrors.division_id[0] }}</div>
           </div>
 
           <div class="col-12 col-md-6">
             <label>Gender</label>
-            <select class="form-select"
-                    formControlName="gender"
+            <select class="form-select" formControlName="gender"
                     (change)="clearBackendError('gender')"
                     [ngClass]="{'is-invalid': (submitted && f['gender'].errors) || validationErrors?.gender}">
               <option value="">Select</option>
               <option>Male</option>
               <option>Female</option>
             </select>
-
             <div class="invalid-feedback" *ngIf="submitted && f['gender'].errors">
               <div *ngIf="f['gender'].errors['required']">Gender is required</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.gender">
-              {{ validationErrors.gender[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.gender">{{ validationErrors.gender[0] }}</div>
           </div>
 
           <div class="col-12 col-md-6">
             <label>Phone</label>
-            <input type="text"
-                   maxlength="10"
-                   (keypress)="onlyNumber($event)"
-                   class="form-control"
-                   formControlName="phone"
-                   (input)="clearBackendError('phone')"
+            <input type="text" maxlength="10" (keypress)="onlyNumber($event)" class="form-control"
+                   formControlName="phone" (input)="clearBackendError('phone')"
                    [ngClass]="{'is-invalid': (submitted && f['phone'].errors) || validationErrors?.phone}">
-
             <div class="invalid-feedback" *ngIf="submitted && f['phone'].errors">
               <div *ngIf="f['phone'].errors['required']">Phone number is required</div>
               <div *ngIf="f['phone'].errors['pattern']">Enter valid 10 digit number</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="validationErrors?.phone">
-              {{ validationErrors.phone[0] }}
-            </div>
+            <div class="invalid-feedback" *ngIf="validationErrors?.phone">{{ validationErrors.phone[0] }}</div>
           </div>
 
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 mt-3 py-2">Submit</button>
-
-        <div *ngIf="successMsg" class="alert alert-success mt-3 mb-0">
-          {{ successMsg }}
+        <div class="d-flex flex-column flex-sm-row gap-2 justify-content-sm-end mt-4 pt-3 form-footer">
+          <a routerLink="/admin/students-list" class="btn btn-outline-secondary order-2 order-sm-1">Cancel</a>
+          <button type="submit" class="btn btn-primary order-1 order-sm-2 px-4">Save student</button>
         </div>
 
-        <div *ngIf="errorMsg" class="alert alert-danger mt-3 mb-0">
-          {{ errorMsg }}
-        </div>
-
+        <div *ngIf="successMsg" class="alert alert-success mt-3 mb-0">{{ successMsg }}</div>
+        <div *ngIf="errorMsg" class="alert alert-danger mt-3 mb-0">{{ errorMsg }}</div>
       </form>
 
     </div>
-
   </div>
-
 </div>

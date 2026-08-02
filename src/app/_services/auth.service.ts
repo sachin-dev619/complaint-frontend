@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { resolveApiUrl } from 'src/app/_helpers/runtime-config';
 
@@ -25,5 +25,15 @@ export class AuthService {
 
   studentRegister(data: any) {
     return this.http.post(`${this.API_URL}/student-register`, data);
+  }
+
+  logout() {
+    return this.http.post(`${this.API_URL}/logout`, {});
+  }
+
+  clearSession(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('role');
   }
 }

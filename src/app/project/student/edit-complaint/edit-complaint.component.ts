@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ComplaintService } from 'src/app/_services/complaint.service';
-import { AdminService } from 'src/app/_services/admin.service';
 import { ToastrService } from 'ngx-toastr';
 import { storageUrl } from 'src/app/_helpers/storage-url';
 
@@ -19,7 +18,6 @@ export class EditComplaintComponent implements OnInit {
   complaint: any;
 
   categories: any[] = [];
-  subcategories: any[] = [];
   filteredSubcategories: any[] = [];
 
   selectedFile: File | null = null;
@@ -36,7 +34,6 @@ export class EditComplaintComponent implements OnInit {
     private fb: FormBuilder,
     private service: ComplaintService,
     private router: Router,
-    private adminservice: AdminService,
     private toastr: ToastrService
   ) {}
 
@@ -60,26 +57,13 @@ export class EditComplaintComponent implements OnInit {
   loadInitialData() {
     this.loading = true;
 
-    this.service.getCategories().subscribe({
+    this.service.getCategories(true).subscribe({
       next: (catRes: any) => {
         this.categories = catRes.data || catRes;
-
-        this.adminservice.getSubcategories().subscribe({
-          next: (subRes: any) => {
-            this.subcategories = subRes.data || subRes;
-
-            // ✅ After both loaded, get complaint
-            this.getComplaint();
-          },
-          error: () => {
-            this.toastr.error('Failed to load subcategories ❌');
-            this.loading = false;
-          }
-        });
-
+        this.getComplaint();
       },
       error: () => {
-        this.toastr.error('Failed to load categories ❌');
+        this.toastr.error('Failed to load categories');
         this.loading = false;
       }
     });
@@ -93,7 +77,6 @@ export class EditComplaintComponent implements OnInit {
 
         this.complaint = res?.data ?? res;
 
-        // Patch basic values
         this.editForm.patchValue({
           title: this.complaint.title,
           category_id: this.complaint.category_id,
@@ -101,35 +84,38 @@ export class EditComplaintComponent implements OnInit {
           complaint_text: this.complaint.complaint_text
         });
 
-        // 🔥 Filter subcategories first
-        this.filteredSubcategories = this.subcategories.filter(
-          (s: any) => s.category_id == this.complaint.category_id
-        );
-
-        // ✅ Then patch subcategory
-        this.editForm.patchValue({
-          subcategory_id: this.complaint.subcategory_id
-        });
-
+        this.loadSubcategories(this.complaint.category_id, this.complaint.subcategory_id);
         this.loading = false;
       },
       error: () => {
         this.loading = false;
-        this.toastr.error('Failed to load complaint ❌');
+        this.toastr.error('Failed to load complaint');
       }
+    });
+  }
+
+  loadSubcategories(categoryId: number, selectedSubId?: number) {
+    if (!categoryId) {
+      this.filteredSubcategories = [];
+      return;
+    }
+
+    this.service.getSubcategoriesByCategory(categoryId).subscribe({
+      next: (res: any) => {
+        this.filteredSubcategories = res.data || res || [];
+        if (selectedSubId) {
+          this.editForm.patchValue({ subcategory_id: selectedSubId });
+        }
+      },
+      error: () => this.toastr.error('Failed to load subcategories')
     });
   }
 
   // =========================
   onCategoryChange() {
     const catId = this.editForm.get('category_id')?.value;
-
-    this.filteredSubcategories = this.subcategories.filter(
-      (s: any) => s.category_id == catId
-    );
-
-    // Reset subcategory when user changes category
     this.editForm.patchValue({ subcategory_id: '' });
+    this.loadSubcategories(catId);
   }
 
   // =========================
@@ -171,7 +157,7 @@ export class EditComplaintComponent implements OnInit {
         reader.readAsDataURL(file);
       }
     } else {
-      this.toastr.warning('File must be less than 5MB ⚠️');
+      this.toastr.warning('File must be less than 5MB');
     }
   }
 
@@ -187,7 +173,7 @@ export class EditComplaintComponent implements OnInit {
 
     if (this.editForm.invalid) {
       Object.values(this.editForm.controls).forEach(c => c.markAsTouched());
-      this.toastr.warning('Please fill all required fields ⚠️');
+      this.toastr.warning('Please fill all required fields');
       return;
     }
 
@@ -204,18 +190,20 @@ export class EditComplaintComponent implements OnInit {
     this.service.updateComplaint(this.complaintId, formData)
       .subscribe({
         next: () => {
-          this.toastr.success('Complaint updated successfully 🎉');
+          this.toastr.success('Complaint updated successfully');
           this.router.navigate(['/student/my-complaints']);
         },
         error: (err) => {
 
           if (err.status === 422) {
-            this.serverErrors = err.error.errors;
+            this.serverErrors = err.error.errors || {};
 
             const firstError = Object.values(this.serverErrors)[0] as any;
-            this.toastr.error(firstError[0]);
+            this.toastr.error(firstError?.[0] || 'Validation failed');
+          } else if (err.status === 403) {
+            this.toastr.error(err?.error?.message || 'Only pending complaints can be edited');
           } else {
-            this.toastr.error('Failed to update complaint ❌');
+            this.toastr.error(err?.error?.message || 'Failed to update complaint');
           }
         }
       });

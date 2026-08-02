@@ -10,13 +10,22 @@ import { ComplaintService } from 'src/app/_services/complaint.service';
 export class DashboardComponent implements OnInit {
 
   complaints: any[] = [];
+  loading = true;
 
   cards = [
-    { title: 'Total', value: 0, icon: 'bi bi-clipboard-data fs-2' },
-    { title: 'Pending', value: 0, icon: 'bi bi-clock-history fs-2' },
-    { title: 'In Progress', value: 0, icon: 'bi bi-gear fs-2' },
-    { title: 'Resolved', value: 0, icon: 'bi bi-check-circle fs-2' }
+    { title: 'Total', value: 0, icon: 'bi bi-clipboard-data', tone: 'total' },
+    { title: 'Pending', value: 0, icon: 'bi bi-clock-history', tone: 'pending' },
+    { title: 'In Progress', value: 0, icon: 'bi bi-gear', tone: 'progress' },
+    { title: 'Resolved', value: 0, icon: 'bi bi-check-circle', tone: 'resolved' }
   ];
+
+  private statusCounts: any = {
+    'Pending': 0,
+    'In Progress': 0,
+    'Resolved': 0
+  };
+
+  private monthlyCounts: number[] = new Array(12).fill(0);
 
   constructor(private service: ComplaintService) {}
 
@@ -25,63 +34,67 @@ export class DashboardComponent implements OnInit {
   }
 
   loadData() {
-    this.service.getAllComplaints().subscribe((res: any) => {
+    this.loading = true;
 
-      this.complaints = res.data;
+    this.service.getDashboardStats().subscribe({
+      next: (res: any) => {
+        const data = res.data || {};
+        this.statusCounts = data.by_status || this.statusCounts;
+        this.monthlyCounts = data.monthly || this.monthlyCounts;
+        this.complaints = data.recent || [];
 
-      this.cards[0].value = this.complaints.length;
-      this.cards[1].value = this.complaints.filter(c => c.status === 'Pending').length;
-      this.cards[2].value = this.complaints.filter(c => c.status === 'In Progress').length;
-      this.cards[3].value = this.complaints.filter(c => c.status === 'Resolved').length;
+        this.cards[0].value = data.total || 0;
+        this.cards[1].value = this.statusCounts['Pending'] || 0;
+        this.cards[2].value = this.statusCounts['In Progress'] || 0;
+        this.cards[3].value = this.statusCounts['Resolved'] || 0;
 
-      this.loadCharts();
+        this.loading = false;
+        setTimeout(() => this.loadCharts(), 0);
+      },
+      error: () => {
+        this.loading = false;
+      }
     });
   }
 
   loadCharts() {
-
-    Chart.getChart("statusChart")?.destroy();
-    Chart.getChart("monthChart")?.destroy();
+    Chart.getChart('statusChart')?.destroy();
+    Chart.getChart('monthChart')?.destroy();
 
     this.loadStatusChart();
     this.loadMonthChart();
   }
 
-  // 🔥 PREMIUM STATUS CHART
   loadStatusChart() {
-
-    const statusCounts: any = {
-      'Pending': 0,
-      'In Progress': 0,
-      'Resolved': 0
-    };
-
-    this.complaints.forEach(c => {
-      statusCounts[c.status]++;
-    });
-
     const canvas: any = document.getElementById('statusChart');
+    if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
 
-    // Gradients
     const g1 = ctx.createLinearGradient(0, 0, 0, 300);
-    g1.addColorStop(0, '#ffc107');
-    g1.addColorStop(1, '#ff9800');
+    g1.addColorStop(0, '#fbbf24');
+    g1.addColorStop(1, '#f59e0b');
 
     const g2 = ctx.createLinearGradient(0, 0, 0, 300);
-    g2.addColorStop(0, '#0d6efd');
-    g2.addColorStop(1, '#4facfe');
+    g2.addColorStop(0, '#60a5fa');
+    g2.addColorStop(1, '#2563eb');
 
     const g3 = ctx.createLinearGradient(0, 0, 0, 300);
-    g3.addColorStop(0, '#198754');
-    g3.addColorStop(1, '#00c853');
+    g3.addColorStop(0, '#34d399');
+    g3.addColorStop(1, '#059669');
+
+    const counts = this.statusCounts;
 
     new Chart(canvas, {
       type: 'doughnut',
       data: {
         labels: ['Pending', 'In Progress', 'Resolved'],
         datasets: [{
-          data: Object.values(statusCounts),
+          data: [
+            counts['Pending'] || 0,
+            counts['In Progress'] || 0,
+            counts['Resolved'] || 0
+          ],
           backgroundColor: [g1, g2, g3],
           borderWidth: 0
         }]
@@ -105,10 +118,12 @@ export class DashboardComponent implements OnInit {
         id: 'centerText',
         beforeDraw(chart: any) {
           const { width, height, ctx } = chart;
-
           ctx.restore();
 
-          const total = Object.values(statusCounts).reduce((a: any, b: any) => a + b, 0);
+          const total =
+            (counts['Pending'] || 0) +
+            (counts['In Progress'] || 0) +
+            (counts['Resolved'] || 0);
 
           const scale = Math.min(width, height) / 240;
           const numSize = Math.round(Math.max(14, Math.min(22, 22 * scale)));
@@ -116,11 +131,11 @@ export class DashboardComponent implements OnInit {
 
           ctx.font = `bold ${numSize}px sans-serif`;
           ctx.textAlign = 'center';
-          ctx.fillStyle = '#333';
-          ctx.fillText(total, width / 2, height / 2);
+          ctx.fillStyle = '#0f172a';
+          ctx.fillText(String(total), width / 2, height / 2);
 
           ctx.font = `${subSize}px sans-serif`;
-          ctx.fillStyle = '#777';
+          ctx.fillStyle = '#64748b';
           ctx.fillText('Total', width / 2, height / 2 + numSize * 0.55);
 
           ctx.save();
@@ -129,19 +144,12 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // 📅 MONTH CHART
   loadMonthChart() {
-
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const counts = new Array(12).fill(0);
+    const canvasEl = document.getElementById('monthChart');
+    if (!canvasEl) return;
 
-    this.complaints.forEach(c => {
-      const m = new Date(c.created_at).getMonth();
-      counts[m]++;
-    });
-
-    const vw =
-      typeof window !== 'undefined' ? window.innerWidth : 1024;
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1024;
     const compact = vw < 576;
     const narrow = vw < 400;
 
@@ -151,8 +159,10 @@ export class DashboardComponent implements OnInit {
         labels: months,
         datasets: [{
           label: 'Complaints',
-          data: counts,
-          backgroundColor: '#0d6efd'
+          data: this.monthlyCounts,
+          backgroundColor: '#2563eb',
+          borderRadius: 6,
+          maxBarThickness: 28
         }]
       },
       options: {

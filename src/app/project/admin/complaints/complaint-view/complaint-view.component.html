@@ -1,93 +1,116 @@
 <div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4" *ngIf="complaint">
 
-  <div class="card shadow-lg complaint-card admin-panel-card">
+  <div class="page-hero d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-2 mb-3 mb-md-4">
+    <div>
+      <h1 class="page-hero__title">Complaint details</h1>
+      <p class="page-hero__subtitle">{{ complaint.complaint_no }} · {{ complaint.user?.name }}</p>
+    </div>
+    <a routerLink="/admin/complaints" class="btn btn-outline-secondary btn-sm align-self-sm-start">
+      <i class="bi bi-arrow-left me-1"></i> Back to list
+    </a>
+  </div>
 
-    <div class="card-body">
+  <div class="row g-3 g-lg-4">
 
-      <h4 class="text-center mb-3 mb-md-4 fs-5">Complaint details</h4>
+    <div class="col-12 col-lg-8">
+      <div class="card shadow admin-panel-card detail-card">
+        <div class="card-body">
 
-      <div class="row g-3">
+          <div class="detail-badges mb-3">
+            <span
+              class="prio-pill"
+              [ngClass]="{
+                'prio-pill--high': complaint.priority=='High',
+                'prio-pill--medium': complaint.priority=='Medium',
+                'prio-pill--low': complaint.priority=='Low'
+              }"
+            >{{ complaint.priority || '—' }}</span>
+            <span
+              class="status-pill"
+              [ngClass]="{
+                'status-pill--pending': complaint.status=='Pending',
+                'status-pill--progress': complaint.status=='In Progress',
+                'status-pill--resolved': complaint.status=='Resolved'
+              }"
+            >{{ complaint.status }}</span>
+          </div>
 
-        <div class="col-12 col-md-6">
-          <label>User Name</label>
-          <input class="form-control" [value]="complaint.user?.name" readonly>
+          <h2 class="detail-title">{{ complaint.title }}</h2>
+          <p class="detail-body">{{ complaint.complaint_text }}</p>
+
+          <div class="detail-meta row g-3 mt-1">
+            <div class="col-sm-6">
+              <div class="meta-box">
+                <span class="meta-box__label">Student</span>
+                <span class="meta-box__value">{{ complaint.user?.name }}</span>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="meta-box">
+                <span class="meta-box__label">Email</span>
+                <span class="meta-box__value">{{ complaint.user?.email }}</span>
+              </div>
+            </div>
+            <div class="col-sm-6" *ngIf="complaint.category">
+              <div class="meta-box">
+                <span class="meta-box__label">Category</span>
+                <span class="meta-box__value">{{ complaint.category?.name }}</span>
+              </div>
+            </div>
+            <div class="col-sm-6" *ngIf="complaint.subcategory">
+              <div class="meta-box">
+                <span class="meta-box__label">Subcategory</span>
+                <span class="meta-box__value">{{ complaint.subcategory?.name }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label class="form-label">Attachment</label>
+            <img
+              *ngIf="complaint.file"
+              [src]="storageUrl(complaint.file)"
+              class="img-preview img-fluid d-block"
+              alt="Complaint attachment"
+            >
+            <div *ngIf="!complaint.file" class="no-image">
+              <i class="bi bi-image"></i>
+              <span>No attachment</span>
+            </div>
+          </div>
+
         </div>
+      </div>
+    </div>
 
-        <div class="col-12 col-md-6">
-          <label>Email</label>
-          <input class="form-control" [value]="complaint.user?.email" readonly>
-        </div>
+    <div class="col-12 col-lg-4">
+      <div class="card shadow admin-panel-card action-card sticky-action">
+        <div class="card-body">
+          <h3 class="action-card__title">Update status</h3>
+          <p class="action-card__hint">Change status and leave a remark for the student</p>
 
-        <div class="col-12 col-md-6">
-          <label>Complaint No</label>
-          <input class="form-control" [value]="complaint.complaint_no" readonly>
-        </div>
-
-        <div class="col-12 col-md-6">
-          <label>Priority</label><br>
-          <span class="badge bg-danger" *ngIf="complaint.priority=='High'">High</span>
-          <span class="badge bg-warning text-dark" *ngIf="complaint.priority=='Medium'">Medium</span>
-          <span class="badge bg-secondary" *ngIf="complaint.priority=='Low'">Low</span>
-        </div>
-
-        <div class="col-12 col-md-6">
-          <label>Status</label>
-          <select class="form-select" [(ngModel)]="complaint.status">
+          <label class="form-label">Status</label>
+          <select class="form-select mb-3" [(ngModel)]="complaint.status">
             <option>Pending</option>
             <option>In Progress</option>
             <option>Resolved</option>
           </select>
-        </div>
 
-        <div class="col-12">
-          <label>Title</label>
-          <input class="form-control" [value]="complaint.title" readonly>
-        </div>
-
-        <div class="col-12">
-          <label>Complaint</label>
-          <textarea class="form-control complaint-textarea" rows="4" readonly>{{ complaint.complaint_text }}</textarea>
-        </div>
-
-        <div class="col-12">
-          <label>Admin Remark</label>
+          <label class="form-label">Admin remark</label>
           <textarea
-            class="form-control"
-            rows="3"
+            class="form-control mb-3"
+            rows="4"
             [(ngModel)]="complaint.admin_remark"
-            placeholder="Enter remark"
+            placeholder="Write a note for the student…"
           ></textarea>
+
+          <button type="button" class="btn btn-primary w-100 mb-2" (click)="updateStatus()">
+            <i class="bi bi-check2-circle me-1"></i> Save changes
+          </button>
+          <a routerLink="/admin/complaints" class="btn btn-outline-secondary w-100">Cancel</a>
         </div>
-
-        <div class="col-12">
-          <label>Uploaded Image</label>
-
-          <img
-            *ngIf="complaint.file"
-            [src]="storageUrl(complaint.file)"
-            class="img-preview img-fluid d-block"
-            alt="Complaint attachment"
-          >
-
-          <div *ngIf="!complaint.file" class="no-image">
-            No image available
-          </div>
-        </div>
-
       </div>
-
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center flex-wrap mt-4">
-        <button type="button" class="btn btn-success btn-lg px-md-4" (click)="updateStatus()">
-          Update
-        </button>
-
-        <button type="button" class="btn btn-outline-secondary btn-lg px-md-4" routerLink="/admin/complaints">
-          Back to list
-        </button>
-      </div>
-
     </div>
 
   </div>
-
 </div>

@@ -1,16 +1,16 @@
 <div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4">
 
+  <div class="page-hero mb-3 mb-md-4">
+    <h1 class="page-hero__title">Daily report</h1>
+    <p class="page-hero__subtitle">Complaints submitted on a selected date</p>
+  </div>
+
   <div class="card shadow admin-panel-card mb-3">
     <div class="card-body">
-      <h4 class="text-center mb-3 fs-5">Daily complaints</h4>
-
       <div class="row g-2 g-md-3 align-items-end">
         <div class="col-12 col-sm-8 col-md-5 col-lg-4">
-          <label class="form-label mb-1 small fw-semibold">Select date</label>
-          <input type="date"
-                 class="form-control"
-                 [(ngModel)]="selectedDate"
-                 (change)="onDateChange()">
+          <label class="form-label mb-1">Select date</label>
+          <input type="date" class="form-control" [(ngModel)]="selectedDate" (change)="onDateChange()">
         </div>
       </div>
     </div>
@@ -18,97 +18,62 @@
 
   <div class="card shadow admin-panel-card">
     <div class="card-body">
-      <h5 class="mb-3 fs-6">Complaint list</h5>
+      <h5 class="section-title mb-3">Complaint list</h5>
 
       <div class="table-responsive rounded border">
-        <table class="table table-sm table-bordered table-hover align-middle text-center mb-0 report-table">
-
+        <table class="table table-sm table-hover align-middle mb-0 report-table">
           <thead class="table-dark">
             <tr>
               <th>#</th>
-              <th>Complaint No</th>
-              <th>Student Name</th>
+              <th>No</th>
+              <th>Student</th>
               <th>Title</th>
-              <th>Complaint</th>
               <th>Category</th>
-              <th>Subcategory</th>
               <th>Priority</th>
               <th>Status</th>
               <th>Date</th>
             </tr>
           </thead>
-
           <tbody>
-
             <tr *ngFor="let c of complaints; let i = index">
-              <td>{{ (currentPage - 1) * 10 + i + 1 }}</td>
-
-              <td class="text-nowrap">{{ c.complaint_no }}</td>
+              <td class="text-muted">{{ (currentPage - 1) * 10 + i + 1 }}</td>
+              <td class="text-nowrap fw-semibold">{{ c.complaint_no }}</td>
               <td>{{ c.user?.name || 'N/A' }}</td>
-              <td class="text-start">{{ c.title }}</td>
-              <td class="text-start">{{ c.complaint_text }}</td>
+              <td class="text-start title-cell">{{ c.title }}</td>
               <td>{{ c.category?.name || 'N/A' }}</td>
-              <td>{{ c.subcategory?.name || 'N/A' }}</td>
-
               <td>
-                <span class="badge bg-danger" *ngIf="c.priority=='High'">High</span>
-                <span class="badge bg-warning text-dark" *ngIf="c.priority=='Medium'">Medium</span>
-                <span class="badge bg-info text-dark" *ngIf="c.priority=='Low'">Low</span>
+                <span class="prio-pill prio-pill--high" *ngIf="c.priority=='High'">High</span>
+                <span class="prio-pill prio-pill--medium" *ngIf="c.priority=='Medium'">Medium</span>
+                <span class="prio-pill prio-pill--low" *ngIf="c.priority=='Low'">Low</span>
               </td>
-
               <td>
-                <span class="badge bg-warning text-dark" *ngIf="c.status=='Pending'">Pending</span>
-                <span class="badge bg-info text-dark" *ngIf="c.status=='In Progress'">In Progress</span>
-                <span class="badge bg-success" *ngIf="c.status=='Resolved'">Resolved</span>
+                <span class="status-pill status-pill--pending" *ngIf="c.status=='Pending'">Pending</span>
+                <span class="status-pill status-pill--progress" *ngIf="c.status=='In Progress'">In Progress</span>
+                <span class="status-pill status-pill--resolved" *ngIf="c.status=='Resolved'">Resolved</span>
               </td>
-
-              <td class="text-nowrap">{{ c.created_at | date:'shortDate' }}</td>
+              <td class="text-nowrap small text-muted">{{ c.created_at | date:'shortDate' }}</td>
             </tr>
-
             <tr *ngIf="complaints.length === 0">
-              <td colspan="10">No complaints found</td>
+              <td colspan="8" class="text-center text-muted py-5">No complaints found</td>
             </tr>
-
           </tbody>
-
         </table>
       </div>
 
       <nav class="mt-3 d-flex justify-content-between align-items-center admin-pagination-bar">
-
-        <div class="small text-muted">
-          Showing {{ complaints.length }} of {{ total }} entries
-        </div>
-
+        <div class="small text-muted">Showing {{ complaints.length }} of {{ total }} entries</div>
         <ul class="pagination mb-0 pagination-sm flex-wrap justify-content-center justify-content-md-end">
-
           <li class="page-item" [class.disabled]="currentPage === 1">
-            <button type="button" class="page-link" (click)="changePage(currentPage - 1)">
-              Previous
-            </button>
+            <button type="button" class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
           </li>
-
-          <li
-            class="page-item"
-            *ngFor="let page of [].constructor(lastPage); let i = index"
-            [class.active]="currentPage === (i + 1)"
-          >
-            <button type="button" class="page-link" (click)="changePage(i + 1)">
-              {{ i + 1 }}
-            </button>
+          <li class="page-item" *ngFor="let page of [].constructor(lastPage); let i = index" [class.active]="currentPage === (i + 1)">
+            <button type="button" class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
           </li>
-
           <li class="page-item" [class.disabled]="currentPage === lastPage">
-            <button type="button" class="page-link" (click)="changePage(currentPage + 1)">
-              Next
-            </button>
+            <button type="button" class="page-link" (click)="changePage(currentPage + 1)">Next</button>
           </li>
-
         </ul>
-
       </nav>
-
     </div>
   </div>
-
 </div>

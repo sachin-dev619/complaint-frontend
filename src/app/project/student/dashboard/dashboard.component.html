@@ -1,8 +1,9 @@
 <div class="app-page container-fluid px-2 px-sm-3 py-2 py-md-3">
 
-  <h2 class="h4 fw-bold text-center text-md-start mb-3 mb-md-4" style="color: #0f172a; letter-spacing: -0.02em;">
-    Dashboard
-  </h2>
+  <div class="page-hero mb-3 mb-md-4">
+    <h2 class="page-hero__title">Dashboard</h2>
+    <p class="page-hero__subtitle">Track your complaints at a glance</p>
+  </div>
 
   <div class="row g-3 g-md-4 mb-3 mb-md-4">
 
@@ -66,7 +67,10 @@
     <div class="col-12 col-lg-7">
       <div class="card app-panel-card shadow-sm h-100">
         <div class="card-body">
-          <h3 class="h6 fw-semibold mb-3 section-title">Recent complaints</h3>
+          <div class="d-flex justify-content-between align-items-center mb-3 gap-2 flex-wrap">
+            <h3 class="h6 fw-semibold mb-0 section-title">Recent complaints</h3>
+            <a routerLink="/student/add-complaint" class="btn btn-sm btn-primary">New complaint</a>
+          </div>
 
           <div class="table-responsive rounded border">
             <table class="table table-sm table-bordered table-hover align-middle text-center mb-0">
@@ -80,7 +84,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let c of complaints; let i = index">
+                <tr *ngFor="let c of complaints | slice:0:8; let i = index">
                   <td>{{ i + 1 }}</td>
                   <td class="text-nowrap">{{ c.complaint_no }}</td>
                   <td class="text-start">{{ c.category?.name }}</td>

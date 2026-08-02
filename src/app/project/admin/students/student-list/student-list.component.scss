@@ -1,14 +1,35 @@
 .student-admin-table {
-  min-width: 640px;
+  min-width: 680px;
+  font-size: 0.875rem;
+
+  th,
+  td {
+    padding: 0.7rem 0.75rem;
+    vertical-align: middle;
+  }
 }
 
-.student-admin-table th,
-.student-admin-table td {
-  font-size: 0.8125rem;
-  padding: 0.45rem 0.5rem;
+.user-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
 
-  @media (min-width: 768px) {
-    font-size: 0.875rem;
-    padding: 0.5rem 0.65rem;
-  }
+.gender-tag {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  background: #f1f5f9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
 }

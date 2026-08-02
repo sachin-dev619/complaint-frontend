@@ -1,18 +1,43 @@
-.page-card {
-  width: 100%;
-  max-width: min(500px, 100%);
-  margin-inline: auto;
-  padding: clamp(1rem, 4vw, 1.5rem);
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.settings-card {
+  max-width: 520px;
 }
 
-input {
-  border-radius: 8px;
+.profile-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+  border: 1px solid rgba(37, 99, 235, 0.12);
 }
 
-button {
-  border-radius: 8px;
-  padding: 10px;
+.profile-banner__avatar {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.profile-banner__name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.profile-banner__role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  margin-top: 0.15rem;
 }

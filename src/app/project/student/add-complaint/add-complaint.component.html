@@ -1,128 +1,161 @@
 <div class="app-page container-fluid px-2 px-sm-3 py-2 py-md-3">
-  <div class="card shadow app-panel-card">
 
+  <div class="page-hero mb-3 mb-md-4">
+    <h1 class="page-hero__title">Register complaint</h1>
+    <p class="page-hero__subtitle">Describe the issue clearly so we can resolve it faster</p>
+  </div>
+
+  <div class="card shadow app-panel-card form-panel">
     <div class="card-body">
 
-    <h2 class="h5 fw-bold text-center text-md-start mb-4 section-title">Register complaint</h2>
+      <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()" class="complaint-form">
 
-    <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
 
-      <div class="row">
+          <div class="col-12">
+            <label for="complaint-title">Complaint title</label>
+            <input
+              id="complaint-title"
+              type="text"
+              formControlName="title"
+              class="form-control"
+              [ngClass]="{'is-invalid': isInvalid('title')}"
+              placeholder="Short summary of the issue"
+            >
+            <div class="invalid-feedback d-block" *ngIf="isInvalid('title')">
+              {{ getErrorMessage('title') }}
+            </div>
+          </div>
 
-        <!-- Title -->
-        <div class="col-md-12 mb-3">
-          <label>Complaint Title</label>
-          <input type="text"
-                 formControlName="title"
-                 class="form-control"
-                 [ngClass]="{'error': isInvalid('title')}"
-                 placeholder="Enter title">
+          <div class="col-md-6">
+            <label for="complaint-category">Category</label>
+            <select
+              id="complaint-category"
+              formControlName="category_id"
+              class="form-select"
+              [ngClass]="{'is-invalid': isInvalid('category_id')}"
+              (change)="onCategoryChange()"
+            >
+              <option value="">Select category</option>
+              <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+            </select>
+            <div class="invalid-feedback d-block" *ngIf="isInvalid('category_id')">
+              {{ getErrorMessage('category_id') }}
+            </div>
+          </div>
 
-          <small *ngIf="isInvalid('title')">
-            {{ getErrorMessage('title') }}
-          </small>
+          <div class="col-md-6">
+            <label for="complaint-subcategory">Subcategory</label>
+            <select
+              id="complaint-subcategory"
+              formControlName="subcategory_id"
+              class="form-select"
+              [ngClass]="{'is-invalid': isInvalid('subcategory_id')}"
+              [disabled]="!filteredSubcategories.length || loadingSub"
+            >
+              <option value="">Select subcategory</option>
+              <option *ngIf="loadingSub" disabled>Loading…</option>
+              <option *ngFor="let s of filteredSubcategories" [value]="s.id">{{ s.name }}</option>
+            </select>
+            <div class="invalid-feedback d-block" *ngIf="isInvalid('subcategory_id')">
+              {{ getErrorMessage('subcategory_id') }}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="complaint-priority">Priority</label>
+            <div class="priority-pills">
+              <label
+                class="priority-pill"
+                [class.active]="complaintForm.get('priority')?.value === 'Low'"
+                [class.priority-pill--low]="true"
+              >
+                <input type="radio" formControlName="priority" value="Low" class="visually-hidden">
+                Low
+              </label>
+              <label
+                class="priority-pill"
+                [class.active]="complaintForm.get('priority')?.value === 'Medium'"
+                [class.priority-pill--medium]="true"
+              >
+                <input type="radio" formControlName="priority" value="Medium" class="visually-hidden">
+                Medium
+              </label>
+              <label
+                class="priority-pill"
+                [class.active]="complaintForm.get('priority')?.value === 'High'"
+                [class.priority-pill--high]="true"
+              >
+                <input type="radio" formControlName="priority" value="High" class="visually-hidden">
+                High
+              </label>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="isInvalid('priority')">
+              {{ getErrorMessage('priority') }}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="complaint-file">Attachment <span class="text-muted fw-normal">(optional)</span></label>
+            <div
+              class="upload-zone"
+              [class.has-file]="!!selectedFile"
+              (click)="fileInput.click()"
+            >
+              <i class="bi bi-cloud-upload upload-zone__icon"></i>
+              <div class="upload-zone__text">
+                <span class="upload-zone__title">{{ selectedFile ? selectedFile.name : 'Click to upload' }}</span>
+                <span class="upload-zone__hint">JPG, PNG or PDF · max 5MB</span>
+              </div>
+              <input
+                #fileInput
+                id="complaint-file"
+                type="file"
+                class="d-none"
+                accept=".jpg,.jpeg,.png,.pdf"
+                (change)="onFileChange($event)"
+              >
+            </div>
+          </div>
+
+          <div class="col-12" *ngIf="imagePreview">
+            <div class="preview-box">
+              <img [src]="imagePreview" alt="Attachment preview">
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeFile()">
+                <i class="bi bi-trash"></i> Remove
+              </button>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="complaint-text">Description</label>
+            <textarea
+              id="complaint-text"
+              formControlName="complaint_text"
+              class="form-control"
+              [ngClass]="{'is-invalid': isInvalid('complaint_text')}"
+              rows="5"
+              placeholder="Explain what happened, where, and when…"
+            ></textarea>
+            <div class="invalid-feedback d-block" *ngIf="isInvalid('complaint_text')">
+              {{ getErrorMessage('complaint_text') }}
+            </div>
+          </div>
+
         </div>
 
-        <!-- Category -->
-        <div class="col-md-6 mb-3">
-          <label>Category</label>
-          <select formControlName="category_id"
-                  class="form-select"
-                  [ngClass]="{'error': isInvalid('category_id')}"
-                  (change)="onCategoryChange()">
-
-            <option value="">Select Category</option>
-            <option *ngFor="let c of categories" [value]="c.id">
-              {{ c.name }}
-            </option>
-          </select>
-
-          <small *ngIf="isInvalid('category_id')">
-            {{ getErrorMessage('category_id') }}
-          </small>
+        <div class="form-footer d-flex flex-column flex-sm-row gap-2 justify-content-sm-end pt-4 mt-2">
+          <button type="button" class="btn btn-outline-secondary order-2 order-sm-1" (click)="resetForm()">
+            Reset
+          </button>
+          <button type="submit" class="btn btn-primary order-1 order-sm-2 px-4" [disabled]="isSubmitting">
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status"></span>
+            {{ isSubmitting ? 'Submitting…' : 'Submit complaint' }}
+          </button>
         </div>
 
-        <!-- Subcategory -->
-        <div class="col-md-6 mb-3">
-          <label>Subcategory</label>
-          <select formControlName="subcategory_id"
-                  class="form-select"
-                  [ngClass]="{'error': isInvalid('subcategory_id')}"
-                  [disabled]="!filteredSubcategories.length || loadingSub">
-
-            <option value="">Select Subcategory</option>
-            <option *ngIf="loadingSub">Loading...</option>
-
-            <option *ngFor="let s of filteredSubcategories" [value]="s.id">
-              {{ s.name }}
-            </option>
-          </select>
-
-          <small *ngIf="isInvalid('subcategory_id')">
-            {{ getErrorMessage('subcategory_id') }}
-          </small>
-        </div>
-
-        <!-- Priority -->
-        <div class="col-md-6 mb-3">
-          <label>Priority</label>
-          <select formControlName="priority"
-                  class="form-select"
-                  [ngClass]="{'error': isInvalid('priority')}">
-
-            <option value="">Select Priority</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-
-          <small *ngIf="isInvalid('priority')">
-            {{ getErrorMessage('priority') }}
-          </small>
-        </div>
-
-        <!-- File -->
-        <div class="col-md-6 mb-3">
-          <label>Upload File</label>
-          <input type="file" class="form-control" (change)="onFileChange($event)">
-        </div>
-
-        <!-- Preview -->
-        <div class="col-md-12 mb-3" *ngIf="imagePreview">
-          <img [src]="imagePreview" class="img-thumbnail" width="150">
-          <button type="button" class="btn btn-sm btn-danger ms-2" (click)="removeFile()">Remove</button>
-        </div>
-
-        <!-- Description -->
-        <div class="col-md-12 mb-3">
-          <label>Description</label>
-          <textarea formControlName="complaint_text"
-                    class="form-control"
-                    [ngClass]="{'error': isInvalid('complaint_text')}"
-                    rows="4"
-                    placeholder="Write your complaint..."></textarea>
-
-          <small *ngIf="isInvalid('complaint_text')">
-            {{ getErrorMessage('complaint_text') }}
-          </small>
-        </div>
-
-      </div>
-
-      <div class="d-flex flex-column flex-sm-row gap-2 justify-content-sm-end pt-2">
-        <button type="button" class="btn btn-outline-secondary order-2 order-sm-1" (click)="resetForm()">
-          Reset
-        </button>
-
-        <button type="submit" class="btn btn-primary order-1 order-sm-2" [disabled]="isSubmitting">
-          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status"></span>
-          {{ isSubmitting ? 'Submitting…' : 'Submit complaint' }}
-        </button>
-      </div>
-
-    </form>
+      </form>
 
     </div>
-
   </div>
 </div>

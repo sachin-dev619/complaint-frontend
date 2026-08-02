@@ -1,14 +1,20 @@
 <div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4">
 
-  <div class="card shadow admin-panel-card">
+  <div class="page-hero d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-2 mb-3 mb-md-4">
+    <div>
+      <h1 class="page-hero__title">Students</h1>
+      <p class="page-hero__subtitle">Registered students in the system</p>
+    </div>
+    <a routerLink="/admin/add-student" class="btn btn-primary align-self-sm-start">
+      <i class="bi bi-person-plus me-1"></i> Add student
+    </a>
+  </div>
 
+  <div class="card shadow admin-panel-card">
     <div class="card-body">
 
-      <h4 class="text-center mb-3 fs-5">Student list</h4>
-
       <div class="table-responsive rounded border">
-        <table class="table table-sm table-bordered table-hover align-middle text-center mb-0 student-admin-table">
-
+        <table class="table table-hover align-middle mb-0 student-admin-table">
           <thead class="table-dark">
             <tr>
               <th>#</th>
@@ -20,64 +26,52 @@
               <th>Phone</th>
             </tr>
           </thead>
-
           <tbody>
-
             <tr *ngFor="let s of students; let i = index">
-              <td>{{ (currentPage - 1) * 10 + i + 1 }}</td>
-              <td class="text-start">{{ s.first_name }} {{ s.last_name }}</td>
+              <td class="text-muted">{{ (currentPage - 1) * 10 + i + 1 }}</td>
+              <td class="text-start fw-semibold">
+                <span class="user-dot">{{ (s.first_name || '?').charAt(0) }}</span>
+                {{ s.first_name }} {{ s.last_name }}
+              </td>
               <td>{{ s.roll_no }}</td>
               <td>{{ s.classModel?.name || s.class_models_id }}</td>
               <td>{{ s.division?.name || s.division_id }}</td>
-              <td>{{ s.gender }}</td>
+              <td>
+                <span class="gender-tag">{{ s.gender }}</span>
+              </td>
               <td class="text-nowrap">{{ s.phone }}</td>
             </tr>
-
             <tr *ngIf="students.length === 0">
-              <td colspan="7">No students found</td>
+              <td colspan="7" class="text-center text-muted py-5">
+                <i class="bi bi-people fs-3 d-block mb-2 opacity-50"></i>
+                No students found
+              </td>
             </tr>
-
           </tbody>
-
         </table>
       </div>
 
       <nav class="mt-3 d-flex justify-content-between align-items-center admin-pagination-bar">
-
         <div class="small text-muted">
           Showing {{ students.length }} of {{ total }} entries
         </div>
-
         <ul class="pagination mb-0 pagination-sm flex-wrap justify-content-center justify-content-md-end">
-
           <li class="page-item" [class.disabled]="currentPage === 1">
-            <button type="button" class="page-link" (click)="changePage(currentPage - 1)">
-              Previous
-            </button>
+            <button type="button" class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
           </li>
-
           <li
             class="page-item"
             *ngFor="let page of [].constructor(lastPage); let i = index"
             [class.active]="currentPage === (i + 1)"
           >
-            <button type="button" class="page-link" (click)="changePage(i + 1)">
-              {{ i + 1 }}
-            </button>
+            <button type="button" class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
           </li>
-
           <li class="page-item" [class.disabled]="currentPage === lastPage">
-            <button type="button" class="page-link" (click)="changePage(currentPage + 1)">
-              Next
-            </button>
+            <button type="button" class="page-link" (click)="changePage(currentPage + 1)">Next</button>
           </li>
-
         </ul>
-
       </nav>
 
     </div>
-
   </div>
-
 </div>

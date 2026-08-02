@@ -1,94 +1,80 @@
 <div class="admin-page container-fluid px-2 px-sm-3 py-3 py-md-4">
 
-  <div class="card shadow admin-panel-card">
+  <div class="page-hero mb-3 mb-md-4">
+    <h1 class="page-hero__title">Subcategories</h1>
+    <p class="page-hero__subtitle">Link subcategories under a parent category</p>
+  </div>
 
+  <div class="card shadow admin-panel-card">
     <div class="card-body">
 
-      <h4 class="text-center mb-3 mb-md-4 fs-5">Subcategory management</h4>
-
-      <div class="row mb-3 g-2 g-md-3">
-
+      <div class="add-bar row g-2 g-md-3 mb-3 mb-md-4">
         <div class="col-12 col-md-4">
           <select class="form-select" [(ngModel)]="category_id">
-            <option value="">Select Category</option>
-            <option *ngFor="let c of categories" [value]="c.id">
-              {{ c.name }}
-            </option>
+            <option value="">Select category</option>
+            <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
           </select>
         </div>
-
         <div class="col-12 col-md-5">
-          <input type="text" class="form-control"
-                 [(ngModel)]="name"
-                 placeholder="Enter subcategory">
+          <input type="text" class="form-control" [(ngModel)]="name" placeholder="Enter subcategory" (keyup.enter)="addSubcategory()">
         </div>
-
         <div class="col-12 col-md-3">
-          <button type="button" class="btn btn-primary w-100 py-2"
-                  (click)="addSubcategory()">Add subcategory</button>
+          <button type="button" class="btn btn-primary w-100 py-2" (click)="addSubcategory()">
+            <i class="bi bi-plus-lg me-1"></i> Add
+          </button>
         </div>
-
       </div>
 
       <div class="table-responsive rounded border">
-        <table class="table table-sm table-bordered table-hover align-middle text-center mb-0">
-
+        <table class="table table-hover align-middle mb-0">
           <thead class="table-dark">
             <tr>
               <th>#</th>
               <th>Category</th>
               <th>Subcategory</th>
-              <th>Action</th>
+              <th class="text-end">Action</th>
             </tr>
           </thead>
-
           <tbody>
             <tr *ngFor="let s of subcategories; let i=index">
-              <td>{{ (currentPage - 1) * 10 + i + 1 }}</td>
-              <td class="text-start">{{ s.category?.name }}</td>
-              <td class="text-start">{{ s.name }}</td>
-              <td>
-                <button type="button" class="btn btn-danger btn-sm"
-                        (click)="deleteSubcategory(s.id)">Delete</button>
+              <td class="text-muted">{{ (currentPage - 1) * 10 + i + 1 }}</td>
+              <td class="text-start">
+                <span class="parent-tag">{{ s.category?.name }}</span>
+              </td>
+              <td class="text-start fw-semibold">{{ s.name }}</td>
+              <td class="text-end">
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="deleteSubcategory(s.id)">
+                  <i class="bi bi-trash"></i>
+                  <span class="d-none d-sm-inline ms-1">Delete</span>
+                </button>
               </td>
             </tr>
+            <tr *ngIf="subcategories.length === 0">
+              <td colspan="4" class="text-center text-muted py-5">No subcategories yet</td>
+            </tr>
           </tbody>
-
         </table>
       </div>
 
       <div class="d-flex justify-content-between align-items-center mt-3 admin-pagination-bar flex-wrap">
-
         <div class="small text-muted mb-2 mb-md-0">
           Showing {{ (currentPage - 1) * 10 + 1 }}
           to {{ (currentPage - 1) * 10 + subcategories.length }}
           of {{ total }} entries
         </div>
-
         <ul *ngIf="lastPage > 1" class="pagination mb-0 pagination-sm flex-wrap justify-content-center justify-content-md-end">
-
           <li class="page-item" [class.disabled]="currentPage===1">
             <button type="button" class="page-link" (click)="changePage(currentPage-1)">Prev</button>
           </li>
-
-          <li *ngFor="let p of [].constructor(lastPage); let i=index"
-              class="page-item"
-              [class.active]="currentPage===i+1">
-            <button type="button" class="page-link" (click)="changePage(i+1)">
-              {{ i+1 }}
-            </button>
+          <li *ngFor="let p of [].constructor(lastPage); let i=index" class="page-item" [class.active]="currentPage===i+1">
+            <button type="button" class="page-link" (click)="changePage(i+1)">{{ i+1 }}</button>
           </li>
-
           <li class="page-item" [class.disabled]="currentPage===lastPage">
             <button type="button" class="page-link" (click)="changePage(currentPage+1)">Next</button>
           </li>
-
         </ul>
-
       </div>
 
     </div>
-
   </div>
-
 </div>

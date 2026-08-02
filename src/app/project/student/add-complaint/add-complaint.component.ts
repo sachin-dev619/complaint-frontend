@@ -66,9 +66,9 @@ export class AddComplaintComponent implements OnInit {
 
   // ✅ LOAD DATA
   loadCategories() {
-    this.complaintService.getCategories().subscribe({
-      next: (res: any) => this.categories = res.data,
-      error: () => this.toastr.error('Failed to load categories ❌')
+    this.complaintService.getCategories(true).subscribe({
+      next: (res: any) => this.categories = res.data || [],
+      error: () => this.toastr.error('Failed to load categories')
     });
   }
 
@@ -80,12 +80,12 @@ export class AddComplaintComponent implements OnInit {
 
     this.complaintService.getSubcategoriesByCategory(id).subscribe({
       next: (res: any) => {
-        this.filteredSubcategories = res.data;
+        this.filteredSubcategories = res.data || [];
         this.loadingSub = false;
       },
       error: () => {
         this.loadingSub = false;
-        this.toastr.error('Failed to load subcategories ❌');
+        this.toastr.error('Failed to load subcategories');
       }
     });
 
@@ -105,7 +105,7 @@ export class AddComplaintComponent implements OnInit {
         reader.readAsDataURL(file);
       }
     } else {
-      this.toastr.warning('File must be less than 5MB ⚠️');
+      this.toastr.warning('File must be less than 5MB');
     }
   }
 
@@ -125,7 +125,7 @@ export class AddComplaintComponent implements OnInit {
 
     if (this.complaintForm.invalid) {
       Object.values(this.complaintForm.controls).forEach(c => c.markAsTouched());
-      this.toastr.warning('Please fill all required fields ⚠️');
+      this.toastr.warning('Please fill all required fields');
       return;
     }
 
@@ -146,14 +146,21 @@ export class AddComplaintComponent implements OnInit {
 
         this.toastr.success(
           `Complaint No: ${res.data?.complaint_no}`,
-          'Submitted Successfully 🎉'
+          'Submitted successfully'
         );
 
         this.resetForm();
       },
-      error: () => {
+      error: (err) => {
         this.isSubmitting = false;
-        this.toastr.error('Failed to submit complaint ❌');
+
+        if (err?.status === 422 && err?.error?.errors) {
+          const first = Object.values(err.error.errors)[0] as string[];
+          this.toastr.error(first?.[0] || 'Validation failed');
+          return;
+        }
+
+        this.toastr.error(err?.error?.message || 'Failed to submit complaint');
       }
     });
   }

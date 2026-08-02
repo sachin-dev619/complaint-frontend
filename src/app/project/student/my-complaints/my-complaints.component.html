@@ -1,23 +1,31 @@
 <div class="app-page container-fluid px-2 px-sm-3 py-2 py-md-3">
 
+  <div class="page-hero d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-2 mb-3 mb-md-4">
+    <div>
+      <h1 class="page-hero__title">My complaints</h1>
+      <p class="page-hero__subtitle">Track status and follow up on your submissions</p>
+    </div>
+    <a routerLink="/student/add-complaint" class="btn btn-primary align-self-sm-start">
+      <i class="bi bi-plus-lg me-1"></i> New complaint
+    </a>
+  </div>
+
   <div class="card shadow app-panel-card">
     <div class="card-body">
 
-      <h2 class="h5 fw-bold text-center text-md-start mb-3 section-title">My complaints</h2>
-
-      <div *ngIf="loading" class="text-center text-muted py-4">
+      <div *ngIf="loading" class="text-center text-muted py-5">
         <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
         <span class="ms-2">Loading…</span>
       </div>
 
       <div class="table-responsive rounded border" *ngIf="!loading">
 
-        <table class="table table-sm table-bordered table-hover align-middle text-center mb-0">
+        <table class="table table-sm table-hover align-middle mb-0 complaints-table">
 
           <thead class="table-dark">
             <tr>
               <th>#</th>
-              <th>Complaint No</th>
+              <th>No</th>
               <th>Title</th>
               <th>Category</th>
               <th>Status</th>
@@ -30,55 +38,55 @@
           <tbody>
             <tr *ngFor="let c of complaints; let i = index">
 
-              <td>{{ i + 1 }}</td>
-              <td class="text-nowrap">{{ c.complaint_no }}</td>
-              <td class="text-start">{{ c.title }}</td>
-              <td>{{ c.category?.name }}</td>
+              <td class="text-muted">{{ i + 1 }}</td>
+              <td class="text-nowrap fw-semibold">{{ c.complaint_no }}</td>
+              <td class="text-start title-cell">{{ c.title }}</td>
+              <td>{{ c.category?.name || '—' }}</td>
 
               <td>
-                <span class="badge"
+                <span class="status-badge"
                   [ngClass]="{
-                    'bg-warning text-dark': c.status=='Pending',
-                    'bg-info text-dark': c.status=='In Progress',
-                    'bg-success': c.status=='Resolved'
+                    'status-badge--pending': c.status=='Pending',
+                    'status-badge--progress': c.status=='In Progress',
+                    'status-badge--resolved': c.status=='Resolved'
                   }">
                   {{ c.status }}
                 </span>
               </td>
 
-              <td class="text-start small">
+              <td class="text-start small remark-cell">
                 <span [ngClass]="{ 'text-muted': !c.admin_remark }">
                   {{ c.admin_remark || 'No remark' }}
                 </span>
               </td>
 
-              <td class="text-nowrap small">{{ c.created_at | date:'short' }}</td>
+              <td class="text-nowrap small text-muted">{{ c.created_at | date:'mediumDate' }}</td>
 
               <td class="text-nowrap">
-                <button type="button" class="btn btn-sm btn-primary me-1 mb-1"
+                <button type="button" class="btn btn-sm btn-outline-primary me-1"
                         (click)="viewComplaint(c.id)">
-                  <i class="bi bi-eye"></i><span class="d-none d-sm-inline"> View</span>
+                  <i class="bi bi-eye"></i><span class="d-none d-md-inline"> View</span>
                 </button>
 
-                <button type="button" class="btn btn-sm btn-warning me-1 mb-1"
+                <button type="button" class="btn btn-sm btn-outline-warning"
                         *ngIf="c.status === 'Pending'"
                         (click)="editComplaint(c.id)">
-                  <i class="bi bi-pencil"></i><span class="d-none d-sm-inline"> Edit</span>
+                  <i class="bi bi-pencil"></i><span class="d-none d-md-inline"> Edit</span>
                 </button>
 
-                <button type="button" class="btn btn-sm btn-outline-secondary mb-1"
-                        *ngIf="c.status !== 'Pending'"
-                        disabled
-                        title="Locked after review">
-                  Locked
-                </button>
+                <span class="locked-tag" *ngIf="c.status !== 'Pending'" title="Locked after review">
+                  <i class="bi bi-lock"></i>
+                </span>
               </td>
 
             </tr>
 
             <tr *ngIf="complaints.length === 0">
-              <td colspan="8" class="text-center text-muted py-4">
-                No complaints found
+              <td colspan="8" class="text-center py-5 empty-row">
+                <i class="bi bi-inbox empty-row__icon"></i>
+                <div class="mt-2 fw-semibold">No complaints yet</div>
+                <p class="text-muted small mb-3">Submit your first complaint to get started</p>
+                <a routerLink="/student/add-complaint" class="btn btn-sm btn-primary">Add complaint</a>
               </td>
             </tr>
 

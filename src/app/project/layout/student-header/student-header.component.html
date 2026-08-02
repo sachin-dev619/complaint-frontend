@@ -8,13 +8,93 @@
       aria-label="Open navigation menu">
       <i class="bi bi-list fs-3"></i>
     </button>
-    <span class="header-title mb-0 fw-semibold text-truncate">Complaint System</span>
+    <div class="header-title-wrap min-w-0">
+      <span class="header-title mb-0 text-truncate">Complaint System</span>
+      <span class="header-subtitle d-none d-sm-inline">Student portal</span>
+    </div>
   </div>
 
-  <div class="d-flex align-items-center gap-2 flex-shrink-0">
-    <span class="d-none d-md-inline text-muted small header-tag">Student</span>
-    <button type="button" class="btn btn-sm btn-outline-danger" (click)="logout()">
-      <i class="bi bi-box-arrow-right d-sm-none"></i>
+  <div class="header-actions d-flex align-items-center flex-shrink-0">
+
+    <div class="notif-wrap">
+      <button
+        type="button"
+        class="notif-trigger"
+        [class.is-open]="showNotifications"
+        (click)="toggleNotifications($event)"
+        [attr.aria-expanded]="showNotifications"
+        aria-label="Notifications"
+      >
+        <i class="bi bi-bell"></i>
+        <span *ngIf="unreadCount > 0" class="notif-badge">{{ badgeLabel }}</span>
+      </button>
+
+      <div class="notif-panel" *ngIf="showNotifications" (click)="$event.stopPropagation()">
+        <div class="notif-panel__head">
+          <div>
+            <div class="notif-panel__title">Notifications</div>
+            <div class="notif-panel__count" *ngIf="unreadCount > 0">{{ unreadCount }} unread</div>
+            <div class="notif-panel__count" *ngIf="unreadCount === 0">You're all caught up</div>
+          </div>
+          <button
+            type="button"
+            class="notif-panel__mark"
+            (click)="markAllRead($event)"
+            [disabled]="unreadCount === 0"
+          >
+            Mark all read
+          </button>
+        </div>
+
+        <div class="notif-panel__body">
+          <div *ngIf="loadingNotifications" class="notif-empty">
+            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+            <span>Loading…</span>
+          </div>
+
+          <button
+            type="button"
+            class="notif-item"
+            *ngFor="let n of notifications"
+            [class.notif-item--unread]="n.is_read == 0 || n.is_read === false"
+            (click)="markAsRead(n, $event)"
+          >
+            <span class="notif-item__icon" aria-hidden="true">
+              <i class="bi" [ngClass]="notificationIcon(n)"></i>
+            </span>
+            <span class="notif-item__content">
+              <span class="notif-item__top">
+                <span class="notif-item__title">{{ n.title }}</span>
+                <span class="notif-item__time">{{ relativeTime(n.created_at) }}</span>
+              </span>
+              <span class="notif-item__desc">{{ n.description }}</span>
+            </span>
+            <span class="notif-item__dot" *ngIf="n.is_read == 0 || n.is_read === false" aria-hidden="true"></span>
+          </button>
+
+          <div *ngIf="!loadingNotifications && notifications.length === 0" class="notif-empty">
+            <div class="notif-empty__icon"><i class="bi bi-bell-slash"></i></div>
+            <div class="notif-empty__title">No notifications</div>
+            <div class="notif-empty__hint">Status updates will appear here</div>
+          </div>
+        </div>
+
+        <div class="notif-panel__foot">
+          <button type="button" class="notif-panel__link" (click)="goToComplaints()">
+            My complaints
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-chip d-none d-md-flex">
+      <span class="user-chip__avatar" aria-hidden="true">S</span>
+      <span class="user-chip__label">Student</span>
+    </div>
+
+    <button type="button" class="btn btn-sm logout-btn" (click)="logout()">
+      <i class="bi bi-box-arrow-right"></i>
       <span class="d-none d-sm-inline">Logout</span>
     </button>
   </div>

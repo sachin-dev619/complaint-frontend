@@ -1,20 +1,13 @@
-.card {
-  border-radius: 12px;
+.form-narrow {
+  max-width: 760px;
 }
 
-label {
-  font-weight: 600;
-}
-
-input, select {
-  border-radius: 6px;
-}
-
-.is-invalid {
-  border-color: #dc3545;
+.form-footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
 }
 
 .invalid-feedback {
   display: block;
-  font-size: 13px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }

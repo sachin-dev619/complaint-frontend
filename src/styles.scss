@@ -1,37 +1,70 @@
-/* App-wide theme tokens (admin + student + auth) */
+/* App-wide theme — slate + blue, soft surfaces */
 :root {
+  --app-font: 'Plus Jakarta Sans', system-ui, sans-serif;
   --app-accent: #2563eb;
-  --app-accent-soft: rgba(37, 99, 235, 0.1);
+  --app-accent-soft: rgba(37, 99, 235, 0.12);
   --admin-accent: #2563eb;
   --admin-accent-hover: #1d4ed8;
-  --admin-accent-soft: rgba(37, 99, 235, 0.1);
+  --admin-accent-soft: rgba(37, 99, 235, 0.12);
   --admin-surface: #ffffff;
-  --admin-elevated: #f8fafc;
+  --admin-elevated: #f1f5f9;
   --admin-muted: #64748b;
+  --admin-ink: #0f172a;
   --admin-border: rgba(15, 23, 42, 0.08);
-  --admin-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 4px 16px rgba(15, 23, 42, 0.06);
-  --admin-radius: 12px;
-  --admin-radius-sm: 8px;
+  --admin-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --admin-shadow-lg: 0 4px 6px rgba(15, 23, 42, 0.04), 0 16px 40px rgba(15, 23, 42, 0.08);
+  --admin-radius: 14px;
+  --admin-radius-sm: 10px;
+  --page-bg: #e8eef6;
 }
 
-/* Layout sidebars use component-scoped styles; avoid global .sidebar rules here */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-.page-card {
-  background: var(--admin-surface);
-  padding: clamp(1rem, 3vw, 1.25rem);
-  border-radius: var(--admin-radius);
-  box-shadow: var(--admin-shadow);
-  border: 1px solid var(--admin-border);
-  max-width: 100%;
+html,
+body {
+  font-family: var(--app-font);
+  color: var(--admin-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
 }
 
 /* Shared page shells */
 .admin-page,
 .app-page {
   max-width: 100%;
+  animation: page-enter 0.35s ease both;
 }
 
-/* Primary content cards (admin + student) */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-card {
+  background: var(--admin-surface);
+  padding: clamp(1rem, 3vw, 1.35rem);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+  border: 1px solid var(--admin-border);
+  max-width: 100%;
+}
+
+/* Primary content cards */
 .admin-panel-card.card,
 .app-panel-card.card,
 .admin-page .card.shadow.admin-panel-card,
@@ -41,20 +74,28 @@
   box-shadow: var(--admin-shadow);
   background: var(--admin-surface);
   overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .admin-panel-card.card:hover,
+  .app-panel-card.card:hover {
+    box-shadow: var(--admin-shadow-lg);
+  }
 }
 
 .admin-panel-card .card-body,
 .admin-panel-card.card > .card-body,
 .app-panel-card .card-body,
 .app-panel-card.card > .card-body {
-  padding: 0.75rem;
+  padding: 1rem;
 
   @media (min-width: 576px) {
-    padding: 1rem;
+    padding: 1.15rem 1.25rem;
   }
 
   @media (min-width: 768px) {
-    padding: 1.25rem;
+    padding: 1.35rem 1.5rem;
   }
 }
 
@@ -64,20 +105,67 @@
 .app-page .section-title,
 .app-page .card-body > h4,
 .app-page .card-body > h5:first-child {
-  color: #0f172a;
-  letter-spacing: -0.02em;
+  color: var(--admin-ink);
+  letter-spacing: -0.03em;
+  font-weight: 700;
 }
 
+/* Softer data tables */
 .admin-page .table-responsive.rounded.border,
 .app-page .table-responsive.rounded.border {
   border-color: var(--admin-border) !important;
   border-radius: var(--admin-radius-sm) !important;
+  overflow: hidden;
+}
+
+.admin-page .table thead.table-dark,
+.app-page .table thead.table-dark,
+.admin-page table.table > thead.table-dark,
+.app-page table.table > thead.table-dark {
+  --bs-table-bg: #1e293b;
+  --bs-table-color: #f1f5f9;
+  --bs-table-border-color: transparent;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.admin-page .table > :not(caption) > * > *,
+.app-page .table > :not(caption) > * > * {
+  padding: 0.7rem 0.85rem;
+}
+
+.admin-page .table-hover > tbody > tr,
+.app-page .table-hover > tbody > tr {
+  transition: background 0.15s ease;
 }
 
 .admin-page .pagination .page-link,
 .app-page .pagination .page-link {
-  border-radius: 6px;
-  margin: 0 1px;
+  border-radius: 8px;
+  margin: 0 2px;
+  border-color: var(--admin-border);
+  color: var(--admin-ink);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.admin-page .pagination .page-item.active .page-link,
+.app-page .pagination .page-item.active .page-link {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+}
+
+.admin-page .form-control,
+.admin-page .form-select,
+.app-page .form-control,
+.app-page .form-select {
+  border-radius: var(--admin-radius-sm);
+  border-color: #e2e8f0;
+  font-size: 0.9375rem;
+  min-height: 2.6rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .admin-page .form-control:focus,
@@ -88,7 +176,35 @@
   box-shadow: 0 0 0 3px var(--admin-accent-soft);
 }
 
-/* Auth screens (login, forgot password, set password) */
+.admin-page .btn,
+.app-page .btn {
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+}
+
+.admin-page .btn-primary,
+.app-page .btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb 60%, #1d4ed8);
+  border: none;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.28);
+}
+
+.admin-page .btn-primary:hover,
+.app-page .btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.admin-page label,
+.app-page label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.35rem;
+}
+
 .auth-page {
   min-height: 100vh;
   min-height: 100dvh;
@@ -100,7 +216,6 @@ body.student-sidebar-open {
   touch-action: none;
 }
 
-/* Pagination: stack on small screens */
 .admin-pagination-bar,
 .app-pagination-bar {
   gap: 0.75rem;
@@ -123,13 +238,72 @@ body.student-sidebar-open {
 }
 
 .page-title {
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 15px;
+  letter-spacing: -0.02em;
 }
 
-/* Empty-state hero icons (admin stub pages, etc.) */
 .empty-state-icon {
   font-size: 2.75rem;
   color: #94a3b8;
   line-height: 1;
 }
+
+/* Shared page header block */
+.page-hero {
+  margin-bottom: 1.25rem;
+
+  &__title {
+    font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--admin-ink);
+    margin: 0;
+  }
+
+  &__subtitle {
+    margin: 0.3rem 0 0;
+    color: var(--admin-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+}
+
+/* Soft toast alignment with theme */
+#toast-container > div {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.16) !important;
+  opacity: 1 !important;
+  font-family: var(--app-font) !important;
+  padding: 0.9rem 1rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.toast-success {
+  background: linear-gradient(135deg, #059669, #047857) !important;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, #d97706, #b45309) !important;
+}
+
+.toast-info {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+}
+
+/* Softer bordered tables */
+.admin-page .table-bordered > :not(caption) > *,
+.app-page .table-bordered > :not(caption) > * {
+  border-color: rgba(15, 23, 42, 0.06);
+}
+
+.admin-page .table-bordered,
+.app-page .table-bordered {
+  border-color: rgba(15, 23, 42, 0.06);
+}
+

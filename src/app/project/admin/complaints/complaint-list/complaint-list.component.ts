@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ComplaintService } from 'src/app/_services/complaint.service';
 
 @Component({
@@ -10,96 +11,97 @@ import { ComplaintService } from 'src/app/_services/complaint.service';
 export class ComplaintListComponent implements OnInit {
 
   complaints: any[] = [];
-  filteredData: any[] = [];
 
   status: string = '';
   priority: string = '';
   searchText: string = '';
 
   loading = false;
+  savingId: number | null = null;
 
-  // ✅ pagination
   currentPage = 1;
   lastPage = 1;
   total = 0;
+  perPage = 10;
+
+  private searchTimer: any;
 
   constructor(
     private service: ComplaintService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.getData();
   }
 
-  // ✅ GET DATA WITH PAGINATION
   getData(page: number = 1) {
     this.loading = true;
 
-    this.service.getAllComplaints(page).subscribe({
+    this.service.getAllComplaints(page, {
+      status: this.status,
+      priority: this.priority,
+      search: this.searchText.trim()
+    }).subscribe({
       next: (res: any) => {
-
-        this.complaints = res.data;
-        this.filteredData = res.data;
-
-        this.currentPage = res.pagination.current_page;
-        this.lastPage = res.pagination.last_page;
-        this.total = res.pagination.total;
-
-        this.applyFilter();
-
+        this.complaints = res.data || [];
+        this.currentPage = res.pagination?.current_page || 1;
+        this.lastPage = res.pagination?.last_page || 1;
+        this.total = res.pagination?.total || 0;
+        this.perPage = res.pagination?.per_page || 10;
         this.loading = false;
       },
       error: () => {
         this.loading = false;
+        this.toastr.error('Failed to load complaints');
       }
     });
   }
 
-  // ✅ FILTER
-  applyFilter() {
-    this.filteredData = this.complaints.filter((item: any) => {
-
-      const matchStatus = this.status
-        ? item.status === this.status
-        : true;
-
-      const matchPriority = this.priority
-        ? item.priority === this.priority
-        : true;
-
-      const matchSearch = this.searchText
-        ? item.complaint_text?.toLowerCase().includes(this.searchText.toLowerCase())
-        : true;
-
-      return matchStatus && matchPriority && matchSearch;
-    });
+  onFilterChange() {
+    this.getData(1);
   }
 
-  // ✅ UPDATE STATUS
+  onSearchInput() {
+    clearTimeout(this.searchTimer);
+    this.searchTimer = setTimeout(() => this.getData(1), 350);
+  }
+
   updateStatus(c: any) {
+    this.savingId = c.id;
+
     this.service.updateStatus(c.id, {
       status: c.status,
       admin_remark: c.admin_remark
     }).subscribe({
       next: (res: any) => {
-        alert(res.message);
-
-        // 🔄 refresh same page
+        this.savingId = null;
+        this.toastr.success(res.message || 'Status updated');
         this.getData(this.currentPage);
+      },
+      error: () => {
+        this.savingId = null;
+        this.toastr.error('Failed to update status');
       }
     });
   }
 
-  // ✅ VIEW
   viewComplaint(id: number) {
     this.router.navigate(['/admin/complaint-view', id]);
   }
 
-  // ✅ CHANGE PAGE
   changePage(page: number) {
     if (page < 1 || page > this.lastPage) return;
     this.getData(page);
   }
 
+  get showingFrom(): number {
+    if (this.total === 0) return 0;
+    return (this.currentPage - 1) * this.perPage + 1;
+  }
+
+  get showingTo(): number {
+    return Math.min(this.currentPage * this.perPage, this.total);
+  }
 }

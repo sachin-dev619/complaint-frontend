@@ -4,25 +4,27 @@
     <span class="sidebar-brand__icon" aria-hidden="true">
       <i class="bi bi-shield-check"></i>
     </span>
-    <span class="sidebar-brand__text">Admin</span>
+    <div class="sidebar-brand__copy">
+      <span class="sidebar-brand__name">Complaint System</span>
+      <span class="sidebar-brand__role">Admin panel</span>
+    </div>
   </div>
+
+  <p class="menu-label">Menu</p>
 
   <ul class="menu">
 
-    <!-- Dashboard -->
     <li routerLink="/admin/dashboard" routerLinkActive="active">
       <i class="bi bi-speedometer2"></i>
       <span>Dashboard</span>
     </li>
 
-    <!-- Complaints (Single Page) -->
     <li routerLink="/admin/complaints" routerLinkActive="active">
-      <i class="bi bi-file-text"></i>
+      <i class="bi bi-file-earmark-text"></i>
       <span>Complaints</span>
     </li>
 
-    <!-- Students -->
-    <li (click)="toggleMenu('students')" class="menu-item">
+    <li (click)="toggleMenu('students')" class="menu-item" [class.open]="openMenu==='students'">
       <div>
         <i class="bi bi-people"></i>
         <span>Students</span>
@@ -37,8 +39,7 @@
       </ul>
     </li>
 
-    <!-- Categories -->
-    <li (click)="toggleMenu('categories')" class="menu-item">
+    <li (click)="toggleMenu('categories')" class="menu-item" [class.open]="openMenu==='categories'">
       <div>
         <i class="bi bi-tags"></i>
         <span>Categories</span>
@@ -53,10 +54,9 @@
       </ul>
     </li>
 
-    <!-- Reports -->
-    <li (click)="toggleMenu('reports')" class="menu-item">
+    <li (click)="toggleMenu('reports')" class="menu-item" [class.open]="openMenu==='reports'">
       <div>
-        <i class="bi bi-graph-up"></i>
+        <i class="bi bi-graph-up-arrow"></i>
         <span>Reports</span>
       </div>
       <i class="bi bi-chevron-down arrow" [class.rotate]="openMenu==='reports'"></i>
@@ -69,8 +69,7 @@
       </ul>
     </li>
 
-    <!-- Settings -->
-    <li (click)="toggleMenu('settings')" class="menu-item">
+    <li (click)="toggleMenu('settings')" class="menu-item" [class.open]="openMenu==='settings'">
       <div>
         <i class="bi bi-gear"></i>
         <span>Settings</span>

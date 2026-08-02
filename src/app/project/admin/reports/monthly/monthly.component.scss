@@ -1,49 +1,37 @@
-.card {
-  border-radius: 12px;
+.report-table {
+  min-width: 720px;
+  font-size: 0.8125rem;
+
+  th, td {
+    padding: 0.65rem 0.7rem;
+    vertical-align: middle;
+  }
 }
 
-h4 {
+.title-cell {
+  max-width: 12rem;
   font-weight: 600;
 }
 
-label {
-  font-weight: 500;
+.prio-pill,
+.status-pill {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 7px;
+  font-size: 0.7rem;
+  font-weight: 700;
 }
 
-input {
-  border-radius: 6px;
-}
+.prio-pill--high { background: #fee2e2; color: #b91c1c; }
+.prio-pill--medium { background: #fef3c7; color: #b45309; }
+.prio-pill--low { background: #e2e8f0; color: #475569; }
 
-.report-table {
-  min-width: 900px;
-}
+.status-pill--pending { background: #fef3c7; color: #92400e; }
+.status-pill--progress { background: #dbeafe; color: #1e40af; }
+.status-pill--resolved { background: #d1fae5; color: #065f46; }
 
-.report-table thead th,
-.report-table tbody td {
-  font-size: 0.75rem;
-
-  @media (min-width: 768px) {
-    font-size: 0.8125rem;
-  }
-
-  @media (min-width: 1200px) {
-    font-size: 0.875rem;
-  }
-}
-
-.report-table tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
-/* Badge */
-.badge {
-  padding: 6px 10px;
-  font-size: 12px;
-  border-radius: 20px;
-}
-
-/* Empty row */
-td[colspan] {
-  font-weight: 500;
-  color: #999;
+.section-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
 }
